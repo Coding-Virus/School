@@ -38,7 +38,7 @@ module stimulus();
     initial 
       begin 
         #0  reset_b = 1'b0;
-        #30 reset_b = 1'b1;
+        #12 reset_b = 1'b1;
         #0  In = 1'b0;
         #20 In = 1'b1;
         #20 In = 1'b0;

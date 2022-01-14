@@ -1,0 +1,68 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/hoepner/School/lab_files
+T_opt
+Z1 !s110 1642192893
+VAkIdUEkW@gnJc<6fCoozK2
+04 8 4 work stimulus fast 0
+=1-8cec4b6e38f5-61e1dffd-2b4-2ecc
+o-quiet -auto_acc_if_foreign -work work +acc
+Z2 tCvgOpt 0
+n@_opt
+OL;O;10.7f;67
+vFSM
+Z3 DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
+R1
+!i10b 1
+!s100 GRU87g]3cl2;Kg=?h4Ulm3
+IZI1Z`QHT8E@Me=Ci>V]_G2
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+!s105 FSM_sv_unit
+S1
+R0
+w1642191006
+8FSM.sv
+FFSM.sv
+L0 1
+Z5 OL;L;10.7f;67
+r1
+!s85 0
+31
+Z6 !s108 1642192892.000000
+Z7 !s107 FSM_tb.sv|FSM.sv|
+Z8 !s90 -reportprogress|300|FSM.sv|FSM_tb.sv|
+!i113 0
+Z9 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R2
+n@f@s@m
+vstimulus
+R3
+R1
+!i10b 1
+!s100 md4Cj35_TD;g1GXWhzZBX1
+I9I^2g_FSC6a;4_PU5Ibf63
+R4
+!s105 FSM_tb_sv_unit
+S1
+R0
+w1642192880
+8FSM_tb.sv
+FFSM_tb.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R2
