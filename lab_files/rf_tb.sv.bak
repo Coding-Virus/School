@@ -1,7 +1,7 @@
 module stimulus();
     logic clock;
     logic writeEnable;
-    logic [4:0] read1, read2, writeAdress;
+    logic [4,0] read1, read2, writeAdress;
     logic [31:0] writeValue;
     
     logic [31:0] regValue1, regValue2;

@@ -7,7 +7,10 @@ module regfile(input  logic        clk,
   logic [31:0]     rf[31:0];
 
   // register 0 hardwired to 0
-assign rf[0] <= 0;
+initial
+begin
+	 rf[0] = 0;
+end
   // three ported register file
   // read two ports combinationally
 always_comb 
