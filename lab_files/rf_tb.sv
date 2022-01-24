@@ -12,7 +12,7 @@ module rftb();
     // Instantiate DUT
     regfile dut(.clk(clock), .we3(writeEnable), 
                 .ra1(read1), .ra2(read2), 
-                .wa3(writeAdress), .wd3(writeValue)
+                .wa3(writeAdress), .wd3(writeValue),
                 .rd1(regValue1), .rd2(regValue2));
 
 
