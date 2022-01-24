@@ -1,10 +1,10 @@
 module rftb();
     logic clock;
     logic writeEnable;
-    logic [4,0] read1,read2, writeAdress;
-    logic [31,0] writeValue;
+    logic read1, read2, writeAdress;
+    logic writeValue;
     
-    logic [31,0] regValue1, regValue2;
+    logic regValue1, regValue2;
     
     integer handle3;
     integer desc3;
@@ -12,7 +12,7 @@ module rftb();
     // Instantiate DUT
     regfile dut(.clk(clock), .we3(writeEnable), 
                 .ra1(read1), .ra2(read2), 
-                .wa3(writeAdress) .wd3(writeValue)
+                .wa3(writeAdress), .wd3(writeValue)
                 .rd1(regValue1), .rd2(regValue2)
     );
 
@@ -36,7 +36,7 @@ module rftb();
     always 
       begin
         desc3 = handle3;
-        #5 $fdisplay(desc3, "%b || %b %b || %b %b|| %b %b", writeEnable, read1, read2, writeAdress, writeValue, regValue1, regValue2);
+        #5 $fdisplay(desc3, "%b || %b %b || %b %b || %b %b", writeEnable, read1, read2, writeAdress, writeValue, regValue1, regValue2);
       end
 
     initial 
