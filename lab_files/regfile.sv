@@ -26,7 +26,7 @@ begin
 		//rf[wa3] = wd3
 		//}
 	//}
-	rf[wa3] = we3 ? wd3  : rf[wa3]
+	rf[wa3] = we3 ? wd3  : rf[wa3];
 end
 
 
