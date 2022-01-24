@@ -1,10 +1,10 @@
 module stimulus();
     logic clock;
     logic writeEnable;
-    logic read1, read2, writeAdress;
-    logic writeValue;
+    logic [4,0] read1, read2, writeAdress;
+    logic [31:0] writeValue;
     
-    logic regValue1, regValue2;
+    logic [31:0] regValue1, regValue2;
     
     integer handle3;
     integer desc3;
@@ -41,19 +41,17 @@ module stimulus();
     initial 
       begin 
         #0  writeEnable = 5'b0;
-        #30 writeEnable = 5'b1;
-
         #0  read1 = 5'b0;
-        #15 read1 = 5'b10;
-
         #0  read2 = 5'b0;
-        #15 read2 = 5'b11;
-
         #0  writeAdress = 5'b0;
-        #15 writeAdress = 5'b10;
-
         #0 writeValue = 32'd0;
-        #15 writeValue = 32'd12;
+
+
+        #10 writeEnable = 5'b1;
+        #5 read1 = 5'b10;
+        #5 read2 = 5'b11;
+        #5 writeAdress = 5'b10;
+        #5 writeValue = 32'd12;
 
 
 
