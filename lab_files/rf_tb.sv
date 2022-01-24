@@ -1,4 +1,4 @@
-module rftb();
+module stimulus();
     logic clock;
     logic writeEnable;
     logic read1, read2, writeAdress;
