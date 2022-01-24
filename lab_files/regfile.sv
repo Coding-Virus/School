@@ -6,10 +6,27 @@ module regfile(input  logic        clk,
 
   logic [31:0]     rf[31:0];
 
+  // register 0 hardwired to 0
+assign rf[0] = 0;
   // three ported register file
   // read two ports combinationally
+always_comb 
+	begin
+	rd1 = ra1 == wa3 ? wd3 : rf[ra1]
+	rd2 = ra2 == wa3 ? wd3 : rf[ra2]
+	end
   // write third port on rising edge of clock
-  // register 0 hardwired to 0
+always @(posedge clk)
+begin
+	if (we3)
+	{
+		if(wa3 != 5'b00000)
+		{
+		rf[wa3] = wd3
+		}
+	}
+end
+
 
 
 endmodule // regfile
