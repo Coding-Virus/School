@@ -9,60 +9,36 @@ z2
 cModel Technology
 Z0 dC:/Users/hoepner/School/lab_files
 T_opt
-Z1 !s110 1642192893
+!s110 1642192893
 VAkIdUEkW@gnJc<6fCoozK2
 04 8 4 work stimulus fast 0
 =1-8cec4b6e38f5-61e1dffd-2b4-2ecc
 o-quiet -auto_acc_if_foreign -work work +acc
-Z2 tCvgOpt 0
+Z1 tCvgOpt 0
 n@_opt
 OL;O;10.7f;67
-vFSM
-Z3 DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
-R1
-!i10b 1
-!s100 GRU87g]3cl2;Kg=?h4Ulm3
-IZI1Z`QHT8E@Me=Ci>V]_G2
-Z4 VDg1SIo80bB@j0V0VzS_@n1
-!s105 FSM_sv_unit
-S1
 R0
-w1642191006
-8FSM.sv
-FFSM.sv
+vrftb
+DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
+!s110 1643059741
+!i10b 1
+!s100 2:e<bCCRX;E827L>>fJ^f2
+IGW]2meO3HXk2TJ[gg09fn2
+VDg1SIo80bB@j0V0VzS_@n1
+!s105 regfile_sv_unit
+S1
+dC:/Users/lurcz/Desktop/Spring 2022/ECEN 4243/Code 4243/School/lab_files
+w1643059727
+8rf_tb.sv
+Frf_tb.sv
 L0 1
-Z5 OL;L;10.7f;67
+OL;L;10.7f;67
 r1
 !s85 0
 31
-Z6 !s108 1642192892.000000
-Z7 !s107 FSM_tb.sv|FSM.sv|
-Z8 !s90 -reportprogress|300|FSM.sv|FSM_tb.sv|
+!s108 1643059741.000000
+!s107 rf_tb.sv|regfile.sv|
+!s90 -reportprogress|300|regfile.sv|rf_tb.sv|
 !i113 0
-Z9 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-R2
-n@f@s@m
-vstimulus
-R3
+o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 R1
-!i10b 1
-!s100 md4Cj35_TD;g1GXWhzZBX1
-I9I^2g_FSC6a;4_PU5Ibf63
-R4
-!s105 FSM_tb_sv_unit
-S1
-R0
-w1642192880
-8FSM_tb.sv
-FFSM_tb.sv
-L0 1
-R5
-r1
-!s85 0
-31
-R6
-R7
-R8
-!i113 0
-R9
-R2
