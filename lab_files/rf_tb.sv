@@ -48,9 +48,9 @@ module stimulus();
 
 
         #10 writeEnable = 5'b1;
-        #5 read1 = 5'b10;
+        #5 read1 = 5'b0;
         #5 read2 = 5'b11;
-        #5 writeAdress = 5'b10;
+        #5 writeAdress = 5'b0;
         #5 writeValue = 32'd12;
 
 

@@ -9,27 +9,30 @@ module regfile(input  logic        clk,
   // register 0 hardwired to 0
 initial
 begin
-	 rf[0] = 0;
+	for(int i=0; i <=31; i++)
+	begin
+		 rf[i] = 0;
+	end
 end
   // three ported register file
   // read two ports combinationally
 always_comb 
 	begin
-	rd1 = ra1 == wa3 ? wd3 : rf[ra1];
-	rd2 = ra2 == wa3 ? wd3 : rf[ra2];
+	rd1 = rf[ra1];
+	rd2 = rf[ra2];
 	end
   // write third port on rising edge of clock
-always @(posedge clk, wa3 != 5'b00000)
+always @(posedge clk)
 begin
 	
 	//if (we3)
-	//{
+	//begin
 		//if(wa3 != 5'b00000)
-		//{
-		//rf[wa3] = wd3
-		//}
-	//}
-	rf[wa3] = we3 ? wd3  : rf[wa3];
+		//begin
+		//rf[wa3] = wd3;
+		//end
+	//end
+	rf[wa3] = (we3 && wa3 != 0) ? wd3  : rf[wa3];
 end
 
 

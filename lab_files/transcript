@@ -1,4 +1,3 @@
-# Reading D:/Modelsim/tcl/vsim/pref.tcl
 # //  ModelSim SE-64 10.7f Mar 24 2020
 # //
 # //  Copyright 1991-2020 Mentor Graphics Corporation
@@ -12,4 +11,24 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# OpenFile {C:/Users/lurcz/Desktop/Spring 2022/ECEN 4243/Code 4243/School/lab_files/rf_tb.sv}
+# do rf.do
+# Model Technology ModelSim SE-64 vlog 10.7f Compiler 2020.03 Mar 24 2020
+# Start time: 14:08:18 on Jan 28,2022
+# vlog -reportprogress 300 regfile.sv rf_tb.sv 
+# -- Compiling module regfile
+# -- Compiling module stimulus
+# 
+# Top level modules:
+# 	stimulus
+# End time: 14:08:18 on Jan 28,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.stimulus 
+# Start time: 14:08:19 on Jan 28,2022
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.stimulus(fast)
+# Loading work.regfile(fast)
+# .main_pane.list.interior.cs.body
+# .main_pane.wave.interior.cs.body.pw.wf
+# End time: 14:13:30 on Jan 28,2022, Elapsed time: 0:05:11
+# Errors: 0, Warnings: 0
