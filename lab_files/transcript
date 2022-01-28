@@ -13,22 +13,23 @@
 # //
 # do rf.do
 # Model Technology ModelSim SE-64 vlog 10.7f Compiler 2020.03 Mar 24 2020
-# Start time: 14:08:18 on Jan 28,2022
+# Start time: 15:01:10 on Jan 28,2022
 # vlog -reportprogress 300 regfile.sv rf_tb.sv 
 # -- Compiling module regfile
 # -- Compiling module stimulus
 # 
 # Top level modules:
 # 	stimulus
-# End time: 14:08:18 on Jan 28,2022, Elapsed time: 0:00:00
+# End time: 15:01:10 on Jan 28,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs="+acc" work.stimulus 
-# Start time: 14:08:19 on Jan 28,2022
+# Start time: 15:01:10 on Jan 28,2022
 # ** Note: (vsim-3812) Design is being optimized...
 # Loading sv_std.std
 # Loading work.stimulus(fast)
 # Loading work.regfile(fast)
 # .main_pane.list.interior.cs.body
 # .main_pane.wave.interior.cs.body.pw.wf
-# End time: 14:13:30 on Jan 28,2022, Elapsed time: 0:05:11
-# Errors: 0, Warnings: 0
+# Causality operation skipped due to absence of debug database file
+# End time: 15:19:47 on Jan 28,2022, Elapsed time: 0:18:37
+# Errors: 0, Warnings: 1

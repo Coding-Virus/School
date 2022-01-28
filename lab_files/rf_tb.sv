@@ -44,14 +44,29 @@ module stimulus();
         #0  read1 = 5'b0;
         #0  read2 = 5'b0;
         #0  writeAdress = 5'b0;
-        #0 writeValue = 32'd0;
+        #0  writeValue = 32'd0;
 
+        #5 read1 = 5'b11;          // test pos edge clock with we off
+        #0 read2 = 5'b0;
+        #5 writeAdress = 5'b11;
+        #0 writeValue = 32'd12;
 
-        #10 writeEnable = 5'b1;
-        #5 read1 = 5'b0;
-        #5 read2 = 5'b11;
-        #5 writeAdress = 5'b0;
-        #5 writeValue = 32'd12;
+        #10 writeEnable = 5'b1;  //write value high
+
+        #5 read1 = 5'b101;     // test read 2
+        #0 read2 = 5'b11;
+
+        #4 read1 = 5'b10;      // write at value read isnt looking
+        #0 read2 = 5'b11;
+        #0 writeAdress = 5'b1;
+        #0 writeValue = 32'd15;
+
+        #6 read1 = 5'b1;        // test rising edge
+        #3 writeAdress = 5'b11;
+        #0 writeValue = 32'd13;
+
+ 
+        #3 writeValue = 32'd10;  // test falling edge
 
 
 

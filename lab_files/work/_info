@@ -9,17 +9,17 @@ z2
 cModel Technology
 Z0 dC:/Users/lurcz/Desktop/Spring 2022/ECEN 4243/Code 4243/School/lab_files
 T_opt
-!s110 1643400499
-VoQ>I>g^KF[6ag=LH[Lk[F2
+Z1 !s110 1643403670
+V`=W]<g]1>:a;a86Y9_MYn3
 04 8 4 work stimulus fast 0
-=1-d8bbc124de8a-61f44d33-d9-5ee4
+=1-d8bbc124de8a-61f45996-348-15f4
 o-quiet -auto_acc_if_foreign -work work +acc
-Z1 tCvgOpt 0
+Z2 tCvgOpt 0
 n@_opt
 OL;O;10.7f;67
 vregfile
-Z2 DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
-Z3 !s110 1643400498
+Z3 DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
+R1
 !i10b 1
 !s100 hCf5NcMG=YR:jUDe@R_7Q3
 I@k>>3ADQHNk^GAe_3@zhj0
@@ -35,23 +35,23 @@ Z5 OL;L;10.7f;67
 r1
 !s85 0
 31
-Z6 !s108 1643400498.000000
+Z6 !s108 1643403670.000000
 Z7 !s107 rf_tb.sv|regfile.sv|
 Z8 !s90 -reportprogress|300|regfile.sv|rf_tb.sv|
 !i113 0
 Z9 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-R1
-vstimulus
 R2
+vstimulus
 R3
+R1
 !i10b 1
-!s100 LWmOMGMaP3jPYiNCW^Ho@0
-I88m5`W]D1jU5oZz]K4EMb1
+!s100 R0Pj3=H`EXm]j9SVKgjDZ1
+I]?ZXYh1RG<adI7f6mh:H?0
 R4
 !s105 rf_tb_sv_unit
 S1
 R0
-w1643399117
+w1643403662
 8rf_tb.sv
 Frf_tb.sv
 L0 1
@@ -64,4 +64,4 @@ R7
 R8
 !i113 0
 R9
-R1
+R2
