@@ -45,8 +45,8 @@ int ADD (int Rd, int Rn, int Operand2, int I, int S, int CC) {
       case 1: cur = CURRENT_STATE.REGS[Rn] + 
 	  (CURRENT_STATE.REGS[Rm] >> shamt5);
 	  break;
-      case 2: cur = CURRENT_STATE.REGS[Rn] + 
-	  (CURRENT_STATE.REGS[Rm] >> shamt5);
+      case 2: cur = CURRENT_STATE.REGS[Rn] +  
+	  (CURRENT_STATE.REGS[Rm] >> shamt5); // change to ASR should look similar to case 3
     	  break;
       case 3: cur = CURRENT_STATE.REGS[Rn] + 
 	      ((CURRENT_STATE.REGS[Rm] >> shamt5) |
