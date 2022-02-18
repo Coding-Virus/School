@@ -45,8 +45,9 @@ int ADD (int Rd, int Rn, int Operand2, int I, int S, int CC) {
       case 1: cur = CURRENT_STATE.REGS[Rn] + 
 	  (CURRENT_STATE.REGS[Rm] >> shamt5);
 	  break;
-      case 2: cur = CURRENT_STATE.REGS[Rn] +  
-	  (CURRENT_STATE.REGS[Rm] >> shamt5); // change to ASR should look similar to case 3
+      case 2: cur = CURRENT_STATE.REGS[Rn] + 
+	      ((CURRENT_STATE.REGS[Rm] << shamt5) |
+               (CURRENT_STATE.REGS[Rm] >> (32 - shamt5)));
     	  break;
       case 3: cur = CURRENT_STATE.REGS[Rn] + 
 	      ((CURRENT_STATE.REGS[Rm] >> shamt5) |
@@ -62,7 +63,8 @@ int ADD (int Rd, int Rn, int Operand2, int I, int S, int CC) {
 	  (CURRENT_STATE.REGS[Rm] >> CURRENT_STATE.REGS[Rs]);
 	  break;
       case 2: cur = CURRENT_STATE.REGS[Rn] + 
-	  (CURRENT_STATE.REGS[Rm] >> CURRENT_STATE.REGS[Rs]);
+	      ((CURRENT_STATE.REGS[Rm] << CURRENT_STATE.REGS[Rs]) |
+               (CURRENT_STATE.REGS[Rm] >> (32 - CURRENT_STATE.REGS[Rs])));
 	  break;
       case 3: cur = CURRENT_STATE.REGS[Rn] + 
 	      ((CURRENT_STATE.REGS[Rm] >> CURRENT_STATE.REGS[Rs]) |
@@ -86,31 +88,214 @@ int ADD (int Rd, int Rn, int Operand2, int I, int S, int CC) {
 
 }
 
-int ADC (char* i_);
-int AND (char* i_);
-int ASR (char* i_);
-int B (char* i_);
-int BIC (char* i_);
-int BL (char* i_);
-int CMN (char* i_);
-int CMP (char* i_);
-int EOR (char* i_);
-int LDR (char* i_);
-int LDRB (char* i_);
-int LSL (char* i_);
-int LSR (char* i_);
-int MLA (char* i_);
-int MOV (char* i_);
-int MUL (char* i_);
-int MVN (char* i_);
-int ORR (char* i_);
-int ROR (char* i_);
-int SBC (char* i_);
-int STR (char* i_);
-int STRB (char* i_);
-int SUB (char* i_);
-int TEQ (char* i_);
-int TST (char* i_);
-int SWI (char* i_){return 0;}
+int ADC (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int AND (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int ASR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int B (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int BIC (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int BL (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int CMN (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int CMP (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{   
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int EOR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int LDR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int LDRB (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int LSL (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int LSR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int MLA (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int MOV (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int MUL (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int MVN (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int ORR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int ROR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int STR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int STRB (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int SUB (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int TEQ (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int TST (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+}
+int SWI (int Rd, int Rn, int Operand2, int I, int S, int CC)
+{
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+    return 0;
+}
 
 #endif
