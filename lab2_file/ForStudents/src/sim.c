@@ -214,41 +214,44 @@ int data_process(char* i_) {
     return 0;
   }	
 
-  /* 1101 has more info for determining pathing comeback to later
+  // 1101 has more info for determining pathing comeback to later
   if(!strcmp(d_opcode,"1101")) { 
 
-    
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int instr11_4 =
+    int instr11_7 = 
 
     if(I == 1 || instr11_4 == 00) {
-      printf("--- This is an  instruction. \n");
-      (Rd, Rn, Operand2, I, S, CC);
+      printf("--- This is an MOV instruction. \n");
+      MOV(Rd, Rn, Operand2, I, S, CC);
       return 0;
     }
-    if(I == 0 &&) {
-      printf("--- This is an  instruction. \n");
-      (Rd, Rn, Operand2, I, S, CC);
+    if(I == 0 && sh = 00 && instr11_4 != 0) {
+      printf("--- This is an LSL instruction. \n");
+      LSL(Rd, Rn, Operand2, I, S, CC);
       return 0;
     }
-    if(I == 0 &&) {
-      printf("--- This is an  instruction. \n");
-      (Rd, Rn, Operand2, I, S, CC);
+    if(I == 0 && sh == 01) {
+      printf("--- This is an LSR instruction. \n");
+      LSR(Rd, Rn, Operand2, I, S, CC);
       return 0;
     }
-    if(I == 0 &&) {
-      printf("--- This is an  instruction. \n");
-      (Rd, Rn, Operand2, I, S, CC);
+    if(I == 0 && sh == 2) {
+      printf("--- This is an ASR instruction. \n");
+      ASR(Rd, Rn, Operand2, I, S, CC);
       return 0;
     }
-    if(I == 0 &&) {
-      printf("--- This is an  instruction. \n");
-      (Rd, Rn, Operand2, I, S, CC);
+    if(I == 0 && sh == 3 && instr11_7 == 0) {
+      printf("--- This is an RRX instruction. \n");
+      RRX(Rd, Rn, Operand2, I, S, CC);
       return 0;
     }
-    printf("--- This is an  instruction. \n");
-    (Rd, Rn, Operand2, I, S, CC);
+    if(I == 0 && sh == 3 && instr11_7 != 0) {
+    printf("--- This is an ROR instruction. \n");
+    ROR(Rd, Rn, Operand2, I, S, CC);
     return 0;
   }	
-  */
+  
 
   if(!strcmp(d_opcode,"1110")) {
     printf("--- This is an BIC instruction. \n");
