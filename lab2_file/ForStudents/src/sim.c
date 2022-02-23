@@ -218,8 +218,8 @@ int data_process(char* i_) {
   if(!strcmp(d_opcode,"1101")) { 
 
     int sh = (Operand2 & 0x00000060) >> 5;
-    int instr11_4 =
-    int instr11_7 = 
+    int instr11_4 = (Operand2 & 0x00000FF0) >> 4;
+    int instr11_7 = (Operand2 & 0x00000F80) >> 7;
 
     if(I == 1 || instr11_4 == 00) {
       printf("--- This is an MOV instruction. \n");
