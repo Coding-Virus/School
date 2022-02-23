@@ -215,7 +215,35 @@ int data_process(char* i_) {
   }	
 
   /* 1101 has more info for determining pathing comeback to later
-  if(!strcmp(d_opcode,"1101")) {
+  if(!strcmp(d_opcode,"1101")) { 
+
+    
+
+    if(I == 1 || instr11_4 == 00) {
+      printf("--- This is an  instruction. \n");
+      (Rd, Rn, Operand2, I, S, CC);
+      return 0;
+    }
+    if(I == 0 &&) {
+      printf("--- This is an  instruction. \n");
+      (Rd, Rn, Operand2, I, S, CC);
+      return 0;
+    }
+    if(I == 0 &&) {
+      printf("--- This is an  instruction. \n");
+      (Rd, Rn, Operand2, I, S, CC);
+      return 0;
+    }
+    if(I == 0 &&) {
+      printf("--- This is an  instruction. \n");
+      (Rd, Rn, Operand2, I, S, CC);
+      return 0;
+    }
+    if(I == 0 &&) {
+      printf("--- This is an  instruction. \n");
+      (Rd, Rn, Operand2, I, S, CC);
+      return 0;
+    }
     printf("--- This is an  instruction. \n");
     (Rd, Rn, Operand2, I, S, CC);
     return 0;
