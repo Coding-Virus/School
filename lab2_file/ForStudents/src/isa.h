@@ -90,6 +90,8 @@ int ADD (int Rd, int Rn, int Operand2, int I, int S, int CC)   //0100
 
 int ADC (int Rd, int Rn, int Operand2, int I, int S, int CC) // 0101
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -147,6 +149,8 @@ int ADC (int Rd, int Rn, int Operand2, int I, int S, int CC) // 0101
 }
 int AND (int Rd, int Rn, int Operand2, int I, int S, int CC) // 0000
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -203,6 +207,8 @@ int AND (int Rd, int Rn, int Operand2, int I, int S, int CC) // 0000
 }
 int RSB (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0011
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -276,11 +282,66 @@ int B (int Rd, int Rn, int Operand2, int I, int S, int CC)  // L = 0
 }
 int BIC (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1110
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
+    int sh = (Operand2 & 0x00000060) >> 5;
+    int shamt5 = (Operand2 & 0x00000F80) >> 7;
+    int bit4 = (Operand2 & 0x00000010) >> 4;
+    int Rm = Operand2 & 0x0000000F;
+    int Rs = (Operand2 & 0x00000F00) >> 8;
+    if (bit4 == 0) 
+      switch (sh) {
+      case 0: cur = CURRENT_STATE.REGS[Rn] & 
+	  ~(CURRENT_STATE.REGS[Rm] << shamt5);
+	  break;
+      case 1: cur = CURRENT_STATE.REGS[Rn] & 
+	  ~(CURRENT_STATE.REGS[Rm] >> shamt5);
+	  break;
+      case 2: cur = CURRENT_STATE.REGS[Rn] & 
+	      ~((CURRENT_STATE.REGS[Rm] << shamt5) |
+               (CURRENT_STATE.REGS[Rm] >> (32 - shamt5)));
+    	  break;
+      case 3: cur = CURRENT_STATE.REGS[Rn] & 
+	      ~((CURRENT_STATE.REGS[Rm] >> shamt5) |
+               (CURRENT_STATE.REGS[Rm] << (32 - shamt5)));
+	  break;
+      }     
+    else
+      switch (sh) {
+      case 0: cur = CURRENT_STATE.REGS[Rn] & 
+	  (CURRENT_STATE.REGS[Rm] << CURRENT_STATE.REGS[Rs]);
+	  break;
+      case 1: cur = CURRENT_STATE.REGS[Rn] & 
+	  ~(CURRENT_STATE.REGS[Rm] >> CURRENT_STATE.REGS[Rs]);
+	  break;
+      case 2: cur = CURRENT_STATE.REGS[Rn] & 
+	      ~((CURRENT_STATE.REGS[Rm] << CURRENT_STATE.REGS[Rs]) |
+               (CURRENT_STATE.REGS[Rm] >> (32 - CURRENT_STATE.REGS[Rs])));
+	  break;
+      case 3: cur = CURRENT_STATE.REGS[Rn] & 
+	      ~((CURRENT_STATE.REGS[Rm] >> CURRENT_STATE.REGS[Rs]) |
+               (CURRENT_STATE.REGS[Rm] << (32 - CURRENT_STATE.REGS[Rs])));
+	  break;
+      }      
+  }
+  if (I == 1) {
+    int rotate = Operand2 >> 8;
+    int Imm = Operand2 & 0x000000FF;
+    cur = CURRENT_STATE.REGS[Rn] + (Imm>>2*rotate|(Imm<<(32-2*rotate)));
+  }
+  NEXT_STATE.REGS[Rd] = cur;
+  if (S == 1) {
+    if (cur < 0)
+      NEXT_STATE.CPSR |= N_N;
+    if (cur == 0)
+      NEXT_STATE.CPSR |= Z_N;
+  }	
+  return 0;
 }
 int BL (int Rd, int Rn, int Operand2, int I, int S, int CC)   // L = 1
 {
@@ -308,6 +369,8 @@ int CMP (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1010, S = 1
 }
 int EOR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0001
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -420,14 +483,56 @@ int MUL (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 000
 }
 int MVN (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1111
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
+    int cur = 0;
+    if (bit4 == 0) 
+      switch (sh) {
+      case 0: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      case 1: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      case 2: cur = ~CURRENT_STATE.REGS[Rn];
+    	  break;
+      case 3: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      }     
+    else
+      switch (sh) {
+      case 0: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      case 1: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      case 2: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      case 3: cur = ~CURRENT_STATE.REGS[Rn];
+	  break;
+      }      
+  }
+  if (I == 1) {
+    int rotate = Operand2 >> 8;
+    int Imm = Operand2 & 0x000000FF;
+    cur = CURRENT_STATE.REGS[Rn] + (Imm>>2*rotate|(Imm<<(32-2*rotate)));
+  }
+  NEXT_STATE.REGS[Rd] = cur;
+  if (S == 1) {
+    if (cur < 0)
+      NEXT_STATE.CPSR |= N_N;
+    if (cur == 0)
+      NEXT_STATE.CPSR |= Z_N;
+  }	
+  return 0;
+
 }
 int ORR (int Rd, int Rn, int Operand2, int I, int S, int CC)   //1100
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -492,6 +597,8 @@ int ROR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1101, I = 0, s
 }
 int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0110
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -549,6 +656,8 @@ int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0110
 }
 int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0110
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
@@ -624,6 +733,8 @@ int STRB (int Rd, int Rn, int Operand2, int I, int S, int CC)   // op = 01, B = 
 }
 int SUB (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0010
 {
+  int cur = 0;
+  if(I == 0) {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
     int bit4 = (Operand2 & 0x00000010) >> 4;
