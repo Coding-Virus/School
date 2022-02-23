@@ -88,7 +88,7 @@ int ADD (int Rd, int Rn, int Operand2, int I, int S, int CC)   //0100
 
 }
 
-int ADC (int Rd, int Rn, int Operand2, int I, int S, int CC) //0101
+int ADC (int Rd, int Rn, int Operand2, int I, int S, int CC) // 0101
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -97,7 +97,7 @@ int ADC (int Rd, int Rn, int Operand2, int I, int S, int CC) //0101
     int Rs = (Operand2 & 0x00000F00) >> 8;
     
 }
-int AND (int Rd, int Rn, int Operand2, int I, int S, int CC) //0000
+int AND (int Rd, int Rn, int Operand2, int I, int S, int CC) // 0000
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -153,7 +153,7 @@ int AND (int Rd, int Rn, int Operand2, int I, int S, int CC) //0000
   }	
   return 0;
 }
-int ASR (int Rd, int Rn, int Operand2, int I, int S, int CC)   //1101, I = 0, sh = 10
+int ASR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1101, I = 0, sh = 10
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -161,7 +161,7 @@ int ASR (int Rd, int Rn, int Operand2, int I, int S, int CC)   //1101, I = 0, sh
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int B (int Rd, int Rn, int Operand2, int I, int S, int CC)  
+int B (int Rd, int Rn, int Operand2, int I, int S, int CC)  // L = 0
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -169,7 +169,7 @@ int B (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int BIC (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int BIC (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1110
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -177,7 +177,7 @@ int BIC (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int BL (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int BL (int Rd, int Rn, int Operand2, int I, int S, int CC)   // L = 1
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -185,7 +185,7 @@ int BL (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int CMN (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int CMN (int Rd, int Rn, int Operand2, int I, int S, int CC)  // 1011, S = 1
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -193,7 +193,7 @@ int CMN (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int CMP (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int CMP (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1010, S = 1
 {   
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -201,7 +201,7 @@ int CMP (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int EOR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int EOR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0001
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -209,7 +209,7 @@ int EOR (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int LDR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int LDR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // op = 01, B = 0, L = 1
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -217,7 +217,7 @@ int LDR (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int LDRB (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int LDRB (int Rd, int Rn, int Operand2, int I, int S, int CC)   // op = 01, B = 1, L = 1
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -225,7 +225,7 @@ int LDRB (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int LSL (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int LSL (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1101, I = 0, sh = 00
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -233,7 +233,7 @@ int LSL (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int LSR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int LSR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1101, I = 0, sh = 01
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -241,7 +241,7 @@ int LSR (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int MLA (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int MLA (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 001
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -249,7 +249,7 @@ int MLA (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int MOV (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int MOV (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1101, I = 1 OR instr(11:4) = 0
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -257,7 +257,7 @@ int MOV (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int MUL (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int MUL (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 000
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -265,7 +265,7 @@ int MUL (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int MVN (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int MVN (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1111
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -273,7 +273,7 @@ int MVN (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int ORR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int ORR (int Rd, int Rn, int Operand2, int I, int S, int CC)   //1100
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -329,7 +329,7 @@ int ORR (int Rd, int Rn, int Operand2, int I, int S, int CC)
   }	
   return 0;
 }
-int ROR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int ROR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1101, I = 0, sh = 11
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -337,7 +337,7 @@ int ROR (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0110
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -345,7 +345,7 @@ int SBC (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int STR (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int STR (int Rd, int Rn, int Operand2, int I, int S, int CC)   // op = 01, B = 0, L = 0
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -353,7 +353,7 @@ int STR (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int STRB (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int STRB (int Rd, int Rn, int Operand2, int I, int S, int CC)   // op = 01, B = 1, L = 0
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -361,7 +361,7 @@ int STRB (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int SUB (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int SUB (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 0010
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -417,7 +417,7 @@ int SUB (int Rd, int Rn, int Operand2, int I, int S, int CC)
   }	
   return 0;
 }
-int TEQ (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int TEQ (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1001, S = 1
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
@@ -425,7 +425,7 @@ int TEQ (int Rd, int Rn, int Operand2, int I, int S, int CC)
     int Rm = Operand2 & 0x0000000F;
     int Rs = (Operand2 & 0x00000F00) >> 8;
 }
-int TST (int Rd, int Rn, int Operand2, int I, int S, int CC)
+int TST (int Rd, int Rn, int Operand2, int I, int S, int CC)   // 1000, S = 1
 {
     int sh = (Operand2 & 0x00000060) >> 5;
     int shamt5 = (Operand2 & 0x00000F80) >> 7;
