@@ -380,17 +380,35 @@ module regfile (input  logic        clk,
                 output logic [31:0] rd1, rd2);
    
    logic [31:0] rf[14:0];
-   
+  initial
+  begin   //start of our regfile
+	  for(int i=0; i <=31; i++)
+	  begin
+		  rf[i] = 0;
+    end
+  end
+    // three ported register file
+    // read two ports combinationally
+  always_comb 
+  begin
+    rd1 = rf[ra1];
+    rd2 = rf[ra2];
+  end
+    // write third port on rising edge of clock
+    always @(posedge clk)
+  begin	
+    rf[wa3] = (we3 && wa3 != 0) ? wd3  : rf[wa3];
+  end  // end of our regfile
    // three ported register file
    // read two ports combinationally
    // write third port on rising edge of clock
    // register 15 reads PC+8 instead
    
-   always_ff @(posedge clk)
-     if (we3) rf[wa3] <= wd3;   
+  always_ff @(posedge clk)   // Figure out what this does
+    if (we3) rf[wa3] <= wd3;   
 
-   assign rd1 = (ra1 == 4'b1111) ? r15 : rf[ra1];
-   assign rd2 = (ra2 == 4'b1111) ? r15 : rf[ra2];
+  assign rd1 = (ra1 == 4'b1111) ? r15 : rf[ra1];
+  assign rd2 = (ra2 == 4'b1111) ? r15 : rf[ra2];
    
 endmodule // regfile
 
