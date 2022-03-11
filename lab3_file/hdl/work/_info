@@ -1,0 +1,52 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/lurcz/Desktop/Spring 2022/ECEN 4243/Code 4243/School/lab3_file/hdl
+vdmem
+Z1 !s110 1647030044
+!i10b 1
+!s100 2h^h]zPQMKYPP<R036jj@0
+ID9W;`U;I>PIc@51oLRBh:2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1646423718
+8dmem.v
+Fdmem.v
+Z4 L0 10
+Z5 OL;L;10.7f;67
+r1
+!s85 0
+31
+Z6 !s108 1647030044.000000
+!s107 tb.sv|top.sv|arm_single.sv|dmem.v|imem.v|
+Z7 !s90 -reportprogress|300|imem.v|dmem.v|arm_single.sv|top.sv|tb.sv|
+!i113 0
+Z8 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z9 tCvgOpt 0
+vimem
+R1
+!i10b 1
+!s100 ^fnBS?H]U0MkK?3EY>Tmi0
+IYH9GE=;YXWPXOf?mz2B1M3
+R2
+R0
+R3
+8imem.v
+Fimem.v
+R4
+R5
+r1
+!s85 0
+31
+R6
+Z10 !s107 tb.sv|top.sv|arm_single.sv|dmem.v|imem.v|
+R7
+!i113 0
+R8
+R9
