@@ -74,6 +74,10 @@
 //    1101  Signed less/equal             N != V | Z = 1
 //    1110  Always                        any
 
+/*Custom Comments
+CI - Custom Input
+
+*/
 module arm (input  logic        clk, reset,
             output logic [31:0] PC,
             input  logic [31:0] Instr,
@@ -165,7 +169,7 @@ module decoder (input  logic [1:0] Op,
                 input  logic [5:0] Funct,
                 input  logic [3:0] Rd,
                 output logic [1:0] FlagW,
-                output logic       PCS, RegW, MemW,
+                output logic       PCS, RegW, MemW, NoWrite
                 output logic       MemtoReg, ALUSrc,
                 output logic [1:0] ImmSrc, ALUControl,
                 output logic [2:0] RegSrc,
@@ -219,6 +223,10 @@ module decoder (input  logic [1:0] Op,
          FlagW      = 2'b00; // don't update Flags
        end
    
+    //[CMN & CMP] NO WRITE | CI
+    if(Funct[4:1] == 1010 || Funct[4:1] == 1011 && Funct[0]) assign NoWrite = 0;
+    else assign NoWrite = 1;
+
    // PC Logic
    assign PCS  = ((Rd == 4'b1111) & RegW) | Branch;
    
@@ -228,7 +236,7 @@ module condlogic (input  logic       clk, reset,
                   input  logic [3:0] Cond,
                   input  logic [3:0] ALUFlags,
                   input  logic [1:0] FlagW,
-                  input  logic       PCS, RegW, MemW,
+                  input  logic       PCS, RegW, MemW, NoWrite // No Write CI
                   output logic       PCSrc, RegWrite, MemWrite);
    
    logic [1:0] FlagWrite;
@@ -252,7 +260,7 @@ module condlogic (input  logic       clk, reset,
                  .Flags(Flags),
                  .CondEx(CondEx));
    assign FlagWrite = FlagW & {2{CondEx}};
-   assign RegWrite  = RegW  & CondEx;
+   assign RegWrite  = RegW  & CondEx & Nowrite; // NoWrite added to the gate
    assign MemWrite  = MemW  & CondEx;
    assign PCSrc     = PCS   & CondEx;
    
@@ -378,7 +386,7 @@ module regfile (input  logic        clk,
                 input  logic [ 3:0] ra1, ra2, wa3, 
                 input  logic [31:0] wd3, r15,
                 output logic [31:0] rd1, rd2);
-   
+
    logic [31:0] rf[14:0];
  
    // three ported register file
