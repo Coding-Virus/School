@@ -199,6 +199,8 @@ module decoder (input  logic [1:0] Op,
 
    assign {RegSrc, ImmSrc, ALUSrc, MemtoReg,
           RegW, MemW, Branch, ALUOp, MemStrobe} = controls;
+
+   NoWrite <= 0; // will allow write if disabled
       
    // ALU Decoder             
    always_comb
@@ -209,6 +211,40 @@ module decoder (input  logic [1:0] Op,
            4'b0010: ALUControl = 2'b01; // SUB
            4'b0000: ALUControl = 2'b10; // AND
            4'b1100: ALUControl = 2'b11; // ORR
+           // above is base code Do Not Modify*
+
+           //[CMN & CMP & TST & TEQ] NO WRITE | CI
+           4'b1010: begin //CMN
+                      if(Funct[0] == 1) begin
+                        ALUControl = 2'b01; // SUB
+                        NoWrite <= 1; 
+                      end
+                      else ALUControl = 2'bx;
+                    end  
+             4'b1011: begin //CMP
+                      if(Funct[0] == 1) begin
+                        ALUControl = 2'b00; // ADD
+                        NoWrite <= 1; 
+                      end
+                      else ALUControl = 2'bx;
+                    end
+             4'b1000: begin //TST 
+                      if(Funct[0] == 1) begin
+                        ALUControl = 2'b10; // ADD
+                        NoWrite <= 1; 
+                      end
+                      else ALUControl = 2'bx;
+                    end
+             4'b1001: begin //TEQ
+                      if(Funct[0] == 1) begin
+                        ALUControl = 2'b11; // ADD
+                        NoWrite <= 1; 
+                      end
+                      else ALUControl = 2'bx;
+                    end
+                    
+           end
+
            default: ALUControl = 2'bx;  // unimplemented
          endcase
          // update flags if S bit is set 
@@ -223,10 +259,7 @@ module decoder (input  logic [1:0] Op,
          FlagW      = 2'b00; // don't update Flags
        end
    
-    //[CMN & CMP] NO WRITE | CI
-    if(Funct[4:1] == 1010 || Funct[4:1] == 1011 && Funct[0]) assign NoWrite = 0;
-    else assign NoWrite = 1;
-
+    
    // PC Logic
    assign PCS  = ((Rd == 4'b1111) & RegW) | Branch;
    
@@ -260,7 +293,7 @@ module condlogic (input  logic       clk, reset,
                  .Flags(Flags),
                  .CondEx(CondEx));
    assign FlagWrite = FlagW & {2{CondEx}};
-   assign RegWrite  = RegW  & CondEx & Nowrite; // NoWrite added to the gate
+   assign RegWrite  = RegW  & CondEx & ~Nowrite; // NoWrite added to the gate
    assign MemWrite  = MemW  & CondEx;
    assign PCSrc     = PCS   & CondEx;
    
