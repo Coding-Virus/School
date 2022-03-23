@@ -230,18 +230,19 @@ module decoder (input  logic [1:0] Op,
                     end
              4'b1000: begin //TST 
                       if(Funct[0] == 1) begin
-                        ALUControl = 2'b10; // ADD
+                        ALUControl = 2'b10; // AND
                         NoWrite <= 1; 
                       end
                       else ALUControl = 2'bx;
                     end
-             4'b1001: begin //TEQ
+            /* 4'b1001: begin //TEQ was coded to path to ORR not XOR
                       if(Funct[0] == 1) begin
-                        ALUControl = 2'b11; // ADD
+                        ALUControl = 2'b11; // ORR
                         NoWrite <= 1; 
                       end
                       else ALUControl = 2'bx;
                     end
+                    */
                     
            end
 
