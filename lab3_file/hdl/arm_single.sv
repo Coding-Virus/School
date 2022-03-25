@@ -266,6 +266,30 @@ module decoder (input  logic [1:0] Op,
    
 endmodule // decoder
 
+//CI Shifter
+module shifter(input logic [31:0] rd2,
+               input logic [1:0] sh,
+               input logic [3:0] shamt5,
+               output logic [31:0] rd2new);
+
+    if(sh == 2'b00)  // logical shift left
+    begin
+      rd2new = rd2 << shamt5;
+    end
+    if(sh == 2'b01)  //logical shift right
+    begin
+      rd2new = rd2 >> shamt5;
+    end
+    if(sh == 2'b10)  // Arithmatic shift right
+    begin
+      rd2new = rd2 >>> shamt5;
+    end
+    if(sh == 2'b11)  // Rotational shift right
+    begin
+      rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
+    end
+endmodule
+
 module condlogic (input  logic       clk, reset,
                   input  logic [3:0] Cond,
                   input  logic [3:0] ALUFlags,
