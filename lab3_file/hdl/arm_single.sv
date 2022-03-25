@@ -171,7 +171,8 @@ module decoder (input  logic [1:0] Op,
                 output logic [1:0] FlagW,
                 output logic       PCS, RegW, MemW, NoWrite
                 output logic       MemtoReg, ALUSrc,
-                output logic [1:0] ImmSrc, ALUControl,
+                output logic [1:0] ImmSrc, 
+                output logic [3:0] ALUControl,
                 output logic [2:0] RegSrc,
                 output logic       MemStrobe);
    
@@ -199,50 +200,58 @@ module decoder (input  logic [1:0] Op,
 
    assign {RegSrc, ImmSrc, ALUSrc, MemtoReg,
           RegW, MemW, Branch, ALUOp, MemStrobe} = controls;
-
-   NoWrite <= 0; // will allow write if disabled
+ 
+  
       
    // ALU Decoder             
    always_comb
+   NoWrite = 0; // will allow write if disabled
      if (ALUOp)
        begin                 // which DP Instr?
          case(Funct[4:1]) 
-           4'b0100: ALUControl = 2'b00; // ADD
-           4'b0010: ALUControl = 2'b01; // SUB
-           4'b0000: ALUControl = 2'b10; // AND
-           4'b1100: ALUControl = 2'b11; // ORR
-           // above is base code Do Not Modify*
+           4'b0100: ALUControl = 4'b0000; // ADD
+           4'b0010: ALUControl = 4'b0001; // SUB
+           4'b0000: ALUControl = 4'b0010; // AND
+           4'b1100: ALUControl = 4'b0011; // ORR
+           4'b0001: ALUControl = 4'b0100; // EOR
+           4'b0101: ALUControl = 4'b0101; // ADC
+           4'b0110: ALUControl = 4'b0110; // SBC
+           4'b1101: ALUControl = 4'b0111; // SHIFT/MOV
+           4'b1110: ALUControl = 4'b1000; // BIC
+           4'b1111: ALUControl = 4'b1001; // MVN
+
+           // ALUcontrol modified from 2 to 4 bits
 
            //[CMN & CMP & TST & TEQ] NO WRITE | CI
            4'b1010: begin //CMN
                       if(Funct[0] == 1) begin
-                        ALUControl = 2'b01; // SUB
-                        NoWrite <= 1; 
+                        ALUControl = 4'b0001; // SUB
+                        NoWrite = 1; 
                       end
-                      else ALUControl = 2'bx;
+                      else ALUControl = 4'bx;
                     end  
              4'b1011: begin //CMP
                       if(Funct[0] == 1) begin
-                        ALUControl = 2'b00; // ADD
-                        NoWrite <= 1; 
+                        ALUControl = 4'b0000; // ADD
+                        NoWrite = 1; 
                       end
-                      else ALUControl = 2'bx;
+                      else ALUControl = 4'bx;
                     end
              4'b1000: begin //TST 
                       if(Funct[0] == 1) begin
-                        ALUControl = 2'b10; // AND
-                        NoWrite <= 1; 
+                        ALUControl = 4'b0010; // AND
+                        NoWrite = 1; 
                       end
-                      else ALUControl = 2'bx;
+                      else ALUControl = 4'bx;
                     end
-            /* 4'b1001: begin //TEQ was coded to path to ORR not XOR
+             4'b1001: begin //TEQ was coded to path to ORR not XOR
                       if(Funct[0] == 1) begin
-                        ALUControl = 2'b11; // ORR
-                        NoWrite <= 1; 
+                        ALUControl = 4'b0100; // EOR
+                        NoWrite = 1; 
                       end
-                      else ALUControl = 2'bx;
+                      else ALUControl = 4'bx;
                     end
-                    */
+                    
                     
            end
 
@@ -339,7 +348,7 @@ module datapath (input  logic        clk, reset,
                  input  logic [ 1:0]  ALUControl,
                  input  logic        MemtoReg,
                  input  logic        PCSrc,
-                 output logic [ 3:0]  ALUFlags,
+                 output logic [ 3:0] ALUFlags,
                  output logic [31:0] PC,
                  input  logic [31:0] Instr,
                  output logic [31:0] ALUResult, WriteData,
@@ -494,7 +503,7 @@ module mux2 #(parameter WIDTH = 8)
 endmodule // mux2
 
 module alu (input  logic [31:0] a, b,
-            input  logic [ 1:0] ALUControl,
+            input  logic [ 3:0] ALUControl,
             output logic [31:0] Result,
             output logic [ 3:0] ALUFlags);
    
@@ -507,9 +516,17 @@ module alu (input  logic [31:0] a, b,
 
    always_comb
      casex (ALUControl[1:0])
-       2'b0?:  Result = sum;
-       2'b10:  Result = a & b;
-       2'b11:  Result = a | b;
+       4'b000?:  Result = sum;
+       4'b0010:  Result = a & b;
+       4'b0011:  Result = a | b;
+       4'b0100:  Result = a ^ b;
+       4'b0101:  Result = sum + (ALUControl[1] == 1'b0) & sum[32];
+       4'b0110:  Result = sum - ~((ALUControl[1] == 1'b0) & sum[32]);
+       4'b0111:  Result = b;
+       4'b1000:  Result = a & ~b;
+       4'b1001:  Result = ~b;
+
+
        default: Result = 32'bx;
      endcase
 
