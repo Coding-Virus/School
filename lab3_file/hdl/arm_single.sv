@@ -90,7 +90,8 @@ module arm (input  logic        clk, reset,
    logic [3:0] ALUFlags;
    logic       RegWrite, ALUSrc, MemtoReg, PCSrc;
    logic [2:0] RegSrc;   
-   logic [1:0] ImmSrc, ALUControl;
+   logic [1:0] ImmSrc, 
+   logic [3:0] ALUControl;
    
    controller c (.clk(clk),
                  .reset(reset),
@@ -131,7 +132,7 @@ module controller (input  logic         clk, reset,
                    output logic         RegWrite,
                    output logic [ 1:0]  ImmSrc,
                    output logic         ALUSrc, 
-                   output logic [ 1:0]  ALUControl,
+                   output logic [ 3:0]  ALUControl,
                    output logic         MemWrite, MemtoReg,
                    output logic         PCSrc,
                    output logic         MemStrobe);
