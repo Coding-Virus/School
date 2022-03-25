@@ -373,7 +373,8 @@ module datapath (input  logic        clk, reset,
    logic [31:0] PCNext, PCPlus4, PCPlus8;
    logic [31:0] ExtImm, SrcA, SrcB, Result;
    logic [ 3:0]  RA1, RA2, RA3;
-   logic [31:0] RA4;   
+   logic [31:0] RA4;  
+   logic [31:0] rd2new;
    
    // next PC logic
    mux2 #(32)  pcmux (.d0(PCPlus4),
@@ -426,9 +427,13 @@ module datapath (input  logic        clk, reset,
    extend      ext (.Instr(Instr[23:0]),
                     .ImmSrc(ImmSrc),
                     .ExtImm(ExtImm));
-
+//CI shifter
+shifter sf ( .rd2(WriteData), 
+             .sh(Instr[6:5]), 
+             .shamt5(Instr[11:7]), 
+             .rd2new(rd2new));
    // ALU logic
-   mux2 #(32)  srcbmux (.d0(WriteData),
+   mux2 #(32)  srcbmux (.d0(rd2new),
                         .d1(ExtImm),
                         .s(ALUSrc),
                         .y(SrcB));
