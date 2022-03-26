@@ -7,46 +7,96 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-Z0 dC:/Users/lurcz/Desktop/Spring 2022/ECEN 4243/Code 4243/School/lab3_file/hdl
-vdmem
-Z1 !s110 1647030044
+Z0 dC:/Users/stolf/OneDrive/git directs/Lab_01/School/lab3_file/hdl
+varm
+Z1 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z2 !s110 1648337558
 !i10b 1
-!s100 2h^h]zPQMKYPP<R036jj@0
-ID9W;`U;I>PIc@51oLRBh:2
-Z2 VDg1SIo80bB@j0V0VzS_@n1
+!s100 :J?3L]mYfK:f2XLOUI`Wc3
+IEcMhZ5dYm1?bhl3_7hHVl1
+S1
 R0
-Z3 w1646423718
-8dmem.v
-Fdmem.v
-Z4 L0 10
-Z5 OL;L;10.7f;67
+Z3 w1648337547
+Z4 8arm_single.sv
+Z5 Farm_single.sv
+!i122 0
+L0 81 46
+Z6 VDg1SIo80bB@j0V0VzS_@n1
+Z7 OL;L;2021.3;73
 r1
 !s85 0
 31
-Z6 !s108 1647030044.000000
+Z8 !s108 1648337558.000000
 !s107 tb.sv|top.sv|arm_single.sv|dmem.v|imem.v|
-Z7 !s90 -reportprogress|300|imem.v|dmem.v|arm_single.sv|top.sv|tb.sv|
+Z9 !s90 -reportprogress|300|imem.v|dmem.v|arm_single.sv|top.sv|tb.sv|
 !i113 0
-Z8 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-Z9 tCvgOpt 0
-vimem
+Z10 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z11 tCvgOpt 0
+vcontroller
 R1
-!i10b 1
-!s100 ^fnBS?H]U0MkK?3EY>Tmi0
-IYH9GE=;YXWPXOf?mz2B1M3
 R2
+!i10b 1
+!s100 LIz0_Gg]0aTl3=3^C>J1=2
+I7HbUX81B_^da<93cgR<^;3
+S1
 R0
 R3
-8imem.v
-Fimem.v
 R4
 R5
+!i122 0
+L0 128 40
+R6
+R7
 r1
 !s85 0
 31
-R6
-Z10 !s107 tb.sv|top.sv|arm_single.sv|dmem.v|imem.v|
-R7
-!i113 0
 R8
+Z12 !s107 tb.sv|top.sv|arm_single.sv|dmem.v|imem.v|
 R9
+!i113 0
+R10
+R11
+vdmem
+R2
+!i10b 1
+!s100 65UbOU4aASlefe`>TOF9i3
+IBJM;WIAn3lE9RRhka8BZ20
+R0
+Z13 w1646422634
+8dmem.v
+Fdmem.v
+!i122 0
+L0 10 37
+R6
+R7
+r1
+!s85 0
+31
+R8
+R12
+R9
+!i113 0
+R10
+R11
+vimem
+R2
+!i10b 1
+!s100 BCGAMES86nl:[CK;fJ]1P1
+I2fP_E>F[RjSQaDLRQGXZJ1
+R0
+R13
+8imem.v
+Fimem.v
+!i122 0
+L0 10 20
+R6
+R7
+r1
+!s85 0
+31
+R8
+R12
+R9
+!i113 0
+R10
+R11

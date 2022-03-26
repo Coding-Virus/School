@@ -1,6 +1,6 @@
-# //  ModelSim SE-64 10.7f Mar 24 2020
+# //  ModelSim SE-64 2021.3 Jul 13 2021
 # //
-# //  Copyright 1991-2020 Mentor Graphics Corporation
+# //  Copyright 1991-2021 Mentor Graphics Corporation
 # //  All Rights Reserved.
 # //
 # //  ModelSim SE-64 and its associated documentation contain trade
@@ -13,19 +13,22 @@
 # //
 # do arm_single.do
 # ./memfile.dat
-# Model Technology ModelSim SE-64 vlog 10.7f Compiler 2020.03 Mar 24 2020
-# Start time: 14:20:44 on Mar 11,2022
+# Model Technology ModelSim SE-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
+# Start time: 18:32:38 on Mar 26,2022
 # vlog -reportprogress 300 imem.v dmem.v arm_single.sv top.sv tb.sv 
 # -- Compiling module imem
 # -- Compiling module dmem
-# ** Error: (vlog-13069) arm_single.sv(13): near "<": syntax error, unexpected '<'.
-# ** Error: arm_single.sv(13): (vlog-13205) Syntax error found in the scope following 'INSTR'. Is there a missing '::'?
-# ** Error: (vlog-13069) tb.sv(10): near "module": syntax error, unexpected module.
-# ** Error: tb.sv(10): (vlog-13205) Syntax error found in the scope following 'c'. Is there a missing '::'?
-# End time: 14:20:44 on Mar 11,2022, Elapsed time: 0:00:00
-# Errors: 4, Warnings: 0
-# ** Error: D:/Modelsim/win64/vlog failed.
+# -- Compiling module arm
+# -- Compiling module controller
+# -- Compiling module decoder
+# ** Error: (vlog-13069) arm_single.sv(268): near "[": syntax error, unexpected '['.
+# ** Error: arm_single.sv(268): (vlog-13205) Syntax error found in the scope following 'FlagW'. Is there a missing '::'?
+# -- Compiling module top
+# ** Error: (vlog-13069) arm_single.sv(268): near "1": syntax error, unexpected INTEGER NUMBER.
+# End time: 18:32:38 on Mar 26,2022, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# ** Error: C:/modeltech64_2021.3/win64/vlog failed.
 # Error in macro ./arm_single.do line 32
-# D:/Modelsim/win64/vlog failed.
+# C:/modeltech64_2021.3/win64/vlog failed.
 #     while executing
 # "vlog imem.v dmem.v arm_single.sv top.sv tb.sv"

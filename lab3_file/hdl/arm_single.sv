@@ -90,7 +90,7 @@ module arm (input  logic        clk, reset,
    logic [3:0] ALUFlags;
    logic       RegWrite, ALUSrc, MemtoReg, PCSrc;
    logic [2:0] RegSrc;   
-   logic [1:0] ImmSrc, 
+   logic [1:0] ImmSrc; 
    logic [3:0] ALUControl;
    
    controller c (.clk(clk),
@@ -170,7 +170,7 @@ module decoder (input  logic [1:0] Op,
                 input  logic [5:0] Funct,
                 input  logic [3:0] Rd,
                 output logic [1:0] FlagW,
-                output logic       PCS, RegW, MemW, NoWrite
+                output logic       PCS, RegW, MemW, NoWrite,
                 output logic       MemtoReg, ALUSrc,
                 output logic [1:0] ImmSrc, 
                 output logic [3:0] ALUControl,
@@ -207,9 +207,12 @@ module decoder (input  logic [1:0] Op,
    // ALU Decoder             
    always_comb
    NoWrite = 0; // will allow write if disabled
+   always_comb
      if (ALUOp)
        begin                 // which DP Instr?
          case(Funct[4:1]) 
+           
+
            4'b0100: ALUControl = 4'b0000; // ADD
            4'b0010: ALUControl = 4'b0001; // SUB
            4'b0000: ALUControl = 4'b0010; // AND
@@ -254,10 +257,12 @@ module decoder (input  logic [1:0] Op,
                     end
                     
                     
-           end
+           
 
-           default: ALUControl = 2'bx;  // unimplemented
+           default: ALUControl = 4'bx;  // unimplemented
          endcase
+         
+       end
          // update flags if S bit is set 
          // (C & V only updated for arith instructions)
          FlagW[1]      = Funct[0]; // FlagW[1] = S-bit
