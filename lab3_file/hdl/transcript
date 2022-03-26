@@ -14,19 +14,32 @@
 # do arm_single.do
 # ./memfile.dat
 # Model Technology ModelSim SE-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
-# Start time: 18:32:38 on Mar 26,2022
+# Start time: 18:55:07 on Mar 26,2022
 # vlog -reportprogress 300 imem.v dmem.v arm_single.sv top.sv tb.sv 
 # -- Compiling module imem
 # -- Compiling module dmem
 # -- Compiling module arm
 # -- Compiling module controller
 # -- Compiling module decoder
-# ** Error: (vlog-13069) arm_single.sv(268): near "[": syntax error, unexpected '['.
-# ** Error: arm_single.sv(268): (vlog-13205) Syntax error found in the scope following 'FlagW'. Is there a missing '::'?
+# ** Error (suppressible): arm_single.sv(233): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
+# ** Error (suppressible): arm_single.sv(240): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
+# ** Error (suppressible): arm_single.sv(247): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
+# ** Error (suppressible): arm_single.sv(254): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
+# -- Compiling module shifter
+# -- Compiling module condlogic
+# -- Compiling module condcheck
+# -- Compiling module datapath
+# -- Compiling module regfile
+# -- Compiling module extend
+# -- Compiling module adder
+# -- Compiling module flopenr
+# -- Compiling module flopr
+# -- Compiling module mux2
+# -- Compiling module alu
 # -- Compiling module top
-# ** Error: (vlog-13069) arm_single.sv(268): near "1": syntax error, unexpected INTEGER NUMBER.
-# End time: 18:32:38 on Mar 26,2022, Elapsed time: 0:00:00
-# Errors: 3, Warnings: 0
+# -- Compiling module testbench
+# End time: 18:55:07 on Mar 26,2022, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
 # ** Error: C:/modeltech64_2021.3/win64/vlog failed.
 # Error in macro ./arm_single.do line 32
 # C:/modeltech64_2021.3/win64/vlog failed.

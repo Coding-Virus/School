@@ -261,8 +261,6 @@ module decoder (input  logic [1:0] Op,
 
            default: ALUControl = 4'bx;  // unimplemented
          endcase
-         
-       end
          // update flags if S bit is set 
          // (C & V only updated for arith instructions)
          FlagW[1]      = Funct[0]; // FlagW[1] = S-bit
@@ -287,6 +285,15 @@ module shifter(input logic [31:0] rd2,
                input logic [3:0] shamt5,
                output logic [31:0] rd2new);
 
+always_comb
+case (sh)
+  2'b00: rd2new = rd2 << shamt5;
+  2'b00: rd2new = rd2 >> shamt5;
+  2'b00: rd2new = rd2 >>> shamt5;
+  2'b00: rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
+  default:rd2new = 31'bx;
+endcase
+/*
     if(sh == 2'b00)  // logical shift left
     begin
       rd2new = rd2 << shamt5;
@@ -302,14 +309,14 @@ module shifter(input logic [31:0] rd2,
     if(sh == 2'b11)  // Rotational shift right
     begin
       rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
-    end
+    end*/
 endmodule
 
 module condlogic (input  logic       clk, reset,
                   input  logic [3:0] Cond,
                   input  logic [3:0] ALUFlags,
                   input  logic [1:0] FlagW,
-                  input  logic       PCS, RegW, MemW, NoWrite // No Write CI
+                  input  logic       PCS, RegW, MemW, NoWrite, // No Write CI
                   output logic       PCSrc, RegWrite, MemWrite);
    
    logic [1:0] FlagWrite;
@@ -333,7 +340,7 @@ module condlogic (input  logic       clk, reset,
                  .Flags(Flags),
                  .CondEx(CondEx));
    assign FlagWrite = FlagW & {2{CondEx}};
-   assign RegWrite  = RegW  & CondEx & ~Nowrite; // NoWrite added to the gate
+   assign RegWrite  = RegW  & CondEx & ~NoWrite; // NoWrite added to the gate
    assign MemWrite  = MemW  & CondEx;
    assign PCSrc     = PCS   & CondEx;
    
@@ -547,10 +554,10 @@ module alu (input  logic [31:0] a, b,
    logic [32:0] sum;
    logic TempFlag , SumControl;
 
-   SumControl = (ALUControl[3:0] == 4'b000? || ALUControl[3:0] == 4'b0101 || ~(ALUControl[3:0] == 4'b0110)) 
-   
-   assign condinvb = ((ALUControl[3:0] == 0001) || (ALUControl[3:0] = 4'b0110)) ? ~b : b;
-   assign sum = a + condinvb + ((ALUControl[3:0] == 0001) || (ALUControl[3:0] = 4'b0110));
+   assign SumControl = (ALUControl[3:0] == 4'b000? || ALUControl[3:0] == 4'b0101 || ~(ALUControl[3:0] == 4'b0110)); 
+   assign tempFlag = ((ALUControl[3:0] == 4'b0001) || (ALUControl[3:0] == 4'b0110));
+   assign condinvb = (tempFlag) ? ~b : b;
+   assign sum = a + condinvb + (tempFlag);
 
    always_comb
      casex (ALUControl[3:0])
@@ -572,7 +579,7 @@ module alu (input  logic [31:0] a, b,
    assign zero     = (Result == 32'b0);
    assign carry    = (SumControl) & sum[32];
    assign overflow = (SumControl) & 
-                     ~(a[31] ^ b[31] ^ ((ALUControl[3:0] == 0001) || (ALUControl[3:0] = 4'b0110)) ) & 
+                     ~(a[31] ^ b[31] ^ (tempFlag) ) & 
                      (a[31] ^ sum[31]); 
    assign ALUFlags = {neg, zero, carry, overflow};
    
