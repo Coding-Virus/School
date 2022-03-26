@@ -540,9 +540,12 @@ module alu (input  logic [31:0] a, b,
    logic        neg, zero, carry, overflow;
    logic [31:0] condinvb;
    logic [32:0] sum;
+   logic TempFlag , SumControl;
+
+   SumControl = (ALUControl[3:0] == 4'b000? || ALUControl[3:0] == 4'b0101 || ~(ALUControl[3:0] == 4'b0110)) 
    
-   assign condinvb = ALUControl[0] ? ~b : b;
-   assign sum = a + condinvb + ALUControl[0];
+   assign condinvb = ((ALUControl[3:0] == 0001) || (ALUControl[3:0] = 4'b0110)) ? ~b : b;
+   assign sum = a + condinvb + (ALUControl[3:0] == 0001) || (ALUControl[3:0] = 4'b0110);
 
    always_comb
      casex (ALUControl[1:0])
@@ -562,7 +565,7 @@ module alu (input  logic [31:0] a, b,
 
    assign neg      = Result[31];
    assign zero     = (Result == 32'b0);
-   assign carry    = (ALUControl[1] == 1'b0) & sum[32];
+   assign carry    = (SumControl) & sum[32];
    assign overflow = (ALUControl[1] == 1'b0) & 
                      ~(a[31] ^ b[31] ^ ALUControl[0]) & 
                      (a[31] ^ sum[31]); 
