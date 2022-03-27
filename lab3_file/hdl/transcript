@@ -14,17 +14,13 @@
 # do arm_single.do
 # ./memfile.dat
 # Model Technology ModelSim SE-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
-# Start time: 18:55:07 on Mar 26,2022
+# Start time: 19:37:17 on Mar 26,2022
 # vlog -reportprogress 300 imem.v dmem.v arm_single.sv top.sv tb.sv 
 # -- Compiling module imem
 # -- Compiling module dmem
 # -- Compiling module arm
 # -- Compiling module controller
 # -- Compiling module decoder
-# ** Error (suppressible): arm_single.sv(233): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
-# ** Error (suppressible): arm_single.sv(240): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
-# ** Error (suppressible): arm_single.sv(247): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
-# ** Error (suppressible): arm_single.sv(254): (vlog-7033) Variable 'NoWrite' driven in a combinational block, may not be driven by any other process. See arm_single.sv(209).
 # -- Compiling module shifter
 # -- Compiling module condlogic
 # -- Compiling module condcheck
@@ -38,10 +34,9 @@
 # -- Compiling module alu
 # -- Compiling module top
 # -- Compiling module testbench
-# End time: 18:55:07 on Mar 26,2022, Elapsed time: 0:00:00
-# Errors: 4, Warnings: 0
-# ** Error: C:/modeltech64_2021.3/win64/vlog failed.
-# Error in macro ./arm_single.do line 32
-# C:/modeltech64_2021.3/win64/vlog failed.
-#     while executing
-# "vlog imem.v dmem.v arm_single.sv top.sv tb.sv"
+# 
+# Top level modules:
+# 	flopr
+# 	testbench
+# End time: 19:37:17 on Mar 26,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

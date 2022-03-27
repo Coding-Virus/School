@@ -138,7 +138,7 @@ module controller (input  logic         clk, reset,
                    output logic         MemStrobe);
    
    logic [1:0] FlagW;
-   logic       PCS, RegW, MemW;
+   logic       PCS, RegW, MemW, NoWrite;
    
    decoder dec (.Op(Instr[27:26]),
                 .Funct(Instr[25:20]),
@@ -147,6 +147,7 @@ module controller (input  logic         clk, reset,
                 .PCS(PCS),
                 .RegW(RegW),
                 .MemW(MemW),
+                .NoWrite(NoWrite),
                 .MemtoReg(MemtoReg),
                 .ALUSrc(ALUSrc),
                 .ImmSrc(ImmSrc),
@@ -161,6 +162,7 @@ module controller (input  logic         clk, reset,
                  .PCS(PCS),
                  .RegW(RegW),
                  .MemW(MemW),
+                 .NoWrite(NoWrite),
                  .PCSrc(PCSrc),
                  .RegWrite(RegWrite),
                  .MemWrite(MemWrite));
@@ -205,14 +207,12 @@ module decoder (input  logic [1:0] Op,
   
       
    // ALU Decoder             
-   always_comb
-   NoWrite = 0; // will allow write if disabled
+   
+    // will allow write if disabled
    always_comb
      if (ALUOp)
        begin                 // which DP Instr?
          case(Funct[4:1]) 
-           
-
            4'b0100: ALUControl = 4'b0000; // ADD
            4'b0010: ALUControl = 4'b0001; // SUB
            4'b0000: ALUControl = 4'b0010; // AND
@@ -261,15 +261,17 @@ module decoder (input  logic [1:0] Op,
 
            default: ALUControl = 4'bx;  // unimplemented
          endcase
+
+         if((Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010)) NoWrite = 1'b0;
          // update flags if S bit is set 
          // (C & V only updated for arith instructions)
          FlagW[1]      = Funct[0]; // FlagW[1] = S-bit
          // FlagW[0] = S-bit & (ADD | SUB)
-         FlagW[0]      = Funct[0] & (ALUControl == 2'b00 | ALUControl == 2'b01);
+         FlagW[0]      = Funct[0] & (ALUControl == 4'b0000 | ALUControl == 4'b0001);
        end
      else
        begin
-         ALUControl = 2'b00; // add for non-DP instructions
+         ALUControl = 4'b0000; // add for non-DP instructions
          FlagW      = 2'b00; // don't update Flags
        end
    
@@ -282,7 +284,7 @@ endmodule // decoder
 //CI Shifter
 module shifter(input logic [31:0] rd2,
                input logic [1:0] sh,
-               input logic [3:0] shamt5,
+               input logic [4:0] shamt5,
                output logic [31:0] rd2new);
 
 always_comb
@@ -291,7 +293,7 @@ case (sh)
   2'b00: rd2new = rd2 >> shamt5;
   2'b00: rd2new = rd2 >>> shamt5;
   2'b00: rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
-  default:rd2new = 31'bx;
+default:rd2new = 31'bx;
 endcase
 /*
     if(sh == 2'b00)  // logical shift left
@@ -382,7 +384,7 @@ module datapath (input  logic        clk, reset,
                  input  logic        RegWrite,
                  input  logic [ 1:0]  ImmSrc,
                  input  logic        ALUSrc,
-                 input  logic [ 1:0]  ALUControl,
+                 input  logic [ 3:0]  ALUControl,
                  input  logic        MemtoReg,
                  input  logic        PCSrc,
                  output logic [ 3:0] ALUFlags,
