@@ -290,9 +290,9 @@ module shifter(input logic [31:0] rd2,
 always_comb
 case (sh)
   2'b00: rd2new = rd2 << shamt5;
-  2'b00: rd2new = rd2 >> shamt5;
-  2'b00: rd2new = rd2 >>> shamt5;
-  2'b00: rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
+  2'b01: rd2new = rd2 >> shamt5;
+  2'b10: rd2new = rd2 >>> shamt5;
+  2'b11: rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
 default:rd2new = 31'bx;
 endcase
 /*
@@ -554,10 +554,13 @@ module alu (input  logic [31:0] a, b,
    logic        neg, zero, carry, overflow;
    logic [31:0] condinvb;
    logic [32:0] sum;
-   logic TempFlag , SumControl;
+   logic tempFlag , SumControl;
 
    assign SumControl = (ALUControl[3:0] == 4'b000? || ALUControl[3:0] == 4'b0101 || ~(ALUControl[3:0] == 4'b0110)); 
-   assign tempFlag = ((ALUControl[3:0] == 4'b0001) || (ALUControl[3:0] == 4'b0110));
+
+   always_comb 
+   if((ALUControl[3:0] == 4'b0001) || (ALUControl[3:0] == 4'b0110)) tempFlag = 1; else tempFlag = 0;
+
    assign condinvb = (tempFlag) ? ~b : b;
    assign sum = a + condinvb + (tempFlag);
 

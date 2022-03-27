@@ -11,10 +11,10 @@ z2
 cModel Technology
 Z0 dC:/Users/stolf/OneDrive/git directs/Lab_01/School/lab3_file/hdl
 T_opt
-Z1 !s110 1648341437
-Vo6ilLK<EP?EKChSh1bUTZ3
+Z1 !s110 1648344214
+V6K6Ej>IQF[g]iUek_f42e0
 04 9 4 work testbench fast 0
-=1-0c9d92850c75-623fb1bd-198-4f6c
+=1-0c9d92850c75-623fbc96-184-7474
 !s124 OEM100
 o-quiet -auto_acc_if_foreign -work work -error 3015 +acc
 Z2 tCvgOpt 0
@@ -28,7 +28,7 @@ R1
 Ioi3;M06]CbzK[e;9VU_aR1
 S1
 R0
-Z4 w1648341429
+Z4 w1648344203
 Z5 8arm_single.sv
 Z6 Farm_single.sv
 !i122 0
@@ -38,7 +38,7 @@ Z8 OL;L;2021.3;73
 r1
 !s85 0
 31
-Z9 !s108 1648341437.000000
+Z9 !s108 1648344213.000000
 Z10 !s107 tb.sv|top.sv|arm_single.sv|dmem.v|imem.v|
 Z11 !s90 -reportprogress|300|imem.v|dmem.v|arm_single.sv|top.sv|tb.sv|
 !i113 0
@@ -48,15 +48,15 @@ valu
 R3
 R1
 !i10b 1
-!s100 Da8Mn76a=Lgaggci]m6[g3
-I6hEoEGFWF:HGK]Go`7hfX3
+!s100 XHm5ic;iV;LF5:::b`INS2
+Io`39[o^P2c0kdQedH7ZR80
 S1
 R0
 R4
 R5
 R6
 !i122 0
-L0 549 40
+L0 549 43
 R7
 R8
 r1
@@ -380,8 +380,8 @@ vshifter
 R3
 R1
 !i10b 1
-!s100 U5S:HPeOfN1QT[jD6]@ST3
-I[DYSGG22WDn`_]K11Wf:i1
+!s100 1nT5?@ND5iGGzlRUeXFk?2
+II@i2GR2Z<ojQm8j0V^91M2
 S1
 R0
 R4
