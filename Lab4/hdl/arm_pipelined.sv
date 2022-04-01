@@ -435,7 +435,7 @@ module datapath (input  logic        clk, reset,
    
    // Execute Stage
    shifter sf ( .rd2(WriteDataE), 
-             .instr(), 
+             .instr(SrcB2shifter), 
              .rd2new(rd2new));  //CI added shifter to data path
    flopenr #(32) rd1reg (.clk(clk),
                        .reset(reset),
@@ -486,13 +486,8 @@ module datapath (input  logic        clk, reset,
                         .d1(ResultW),
                         .d2(ALUOutM),
                         .s(ForwardBE),
-<<<<<<< HEAD
                         .y(WriteDataE)); //shifter add here
    mux2 #(32)  srcbmux (.d0(WriteDataE),
-=======
-                        .y(WriteDataE));
-   mux2 #(32)  srcbmux (.d0(rd2new),
->>>>>>> d411c0bbba534a463944a5496262269b6008402a
                         .d1(ExtImmE),
                         .s(ALUSrcE),
                         .y(SrcBE));
