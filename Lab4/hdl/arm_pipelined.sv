@@ -363,6 +363,7 @@ module datapath (input  logic        clk, reset,
    logic [3:0]  WA3E, WA3M, WA3W;
    logic        Match_1D_E, Match_2D_E;
    logic [2:0]  RegSrcE, RegSrcM, RegSrcW;
+   logic [31:0] rd2new;
       
    // Fetch stage
    mux2 #(32) pcnextmux (.d0(PCPlus4F),
@@ -426,6 +427,9 @@ module datapath (input  logic        clk, reset,
                     .ExtImm(ExtImmD));
    
    // Execute Stage
+   shifter sf ( .rd2(WriteDataE), 
+             .instr(), 
+             .rd2new(rd2new));  //CI added shifter to data path
    flopenr #(32) rd1reg (.clk(clk),
                        .reset(reset),
                        .en(MemSysReady),
@@ -476,7 +480,7 @@ module datapath (input  logic        clk, reset,
                         .d2(ALUOutM),
                         .s(ForwardBE),
                         .y(WriteDataE));
-   mux2 #(32)  srcbmux (.d0(WriteDataE),
+   mux2 #(32)  srcbmux (.d0(rd2new),
                         .d1(ExtImmE),
                         .s(ALUSrcE),
                         .y(SrcBE));
@@ -646,6 +650,23 @@ module extend (input  logic [23:0] Instr,
      endcase             
 
 endmodule // extend
+
+//CI Shifter
+module shifter(input logic [31:0] rd2,
+               input logic [6:0] instr,
+               output logic [31:0] rd2new);
+logic [1:0] sh = instr [1:0];
+logic [4:0] shamt5 = instr[6:2];
+always_comb
+case (sh)
+  2'b00: rd2new = rd2 << shamt5;
+  2'b01: rd2new = rd2 >> shamt5;
+  2'b10: rd2new = rd2 >>> shamt5;
+  2'b11: rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
+default:rd2new = 31'bx;
+endcase
+// If RSR becomes issuse add bit 4 in inst and make a case for it
+endmodule
 
 module alu (input  logic [31:0] a, b,
             input  logic [1:0]  ALUControl,
