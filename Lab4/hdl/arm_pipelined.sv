@@ -195,6 +195,7 @@ module controller (input  logic         clk, reset,
    logic        PCSrcD, PCSrcE, PCSrcM;
    logic [3:0]  FlagsE, FlagsNextE, CondE;
    logic        MemStrobeD, MemStrobeE, MemStrobeGatedE;
+   logic [6:0]  SrcB2shifter;
 
    // Decode stage   
    always_comb
@@ -259,6 +260,12 @@ module controller (input  logic         clk, reset,
                         .en(MemSysReady),
                         .d(FlagsNextE),
                         .q(FlagsE));
+
+   flopenr  #(4) flagsreg(.clk(clk),
+                          .reset(reset),
+                          .en(MemSysReady),
+                          .d(Instr[11:5]),
+                          .q(SrcB2shifter));                     
 
    // write and Branch controls are conditional
    conditional Cond (.Cond(CondE),
@@ -475,7 +482,7 @@ module datapath (input  logic        clk, reset,
                         .d1(ResultW),
                         .d2(ALUOutM),
                         .s(ForwardBE),
-                        .y(WriteDataE));
+                        .y(WriteDataE)); //shifter add here
    mux2 #(32)  srcbmux (.d0(WriteDataE),
                         .d1(ExtImmE),
                         .s(ALUSrcE),
