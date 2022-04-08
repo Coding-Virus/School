@@ -435,7 +435,7 @@ module datapath (input  logic        clk, reset,
    
    // Execute Stage
    shifter sf ( .rd2(WriteDataE), 
-             .instr(), 
+             .instr(SrcB2shifter), 
              .rd2new(rd2new));  //CI added shifter to data path
    flopenr #(32) rd1reg (.clk(clk),
                        .reset(reset),
