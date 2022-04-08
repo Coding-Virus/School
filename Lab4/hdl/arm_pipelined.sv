@@ -193,7 +193,7 @@ module controller (input  logic         clk, reset,
 
    logic [11:0] controlsD;
    logic        CondExE, ALUOpD;
-   logic [1:0]  ALUControlD;
+   logic [3:0]  ALUControlD;
    logic        ALUSrcD;
    logic        MemtoRegD, MemtoRegM;
    logic        RegWriteD, RegWriteE, RegWriteGatedE;
@@ -224,20 +224,20 @@ module controller (input  logic         clk, reset,
      if (ALUOpD) 
        begin                 // which Data-processing Instr?
          case(InstrD[24:21]) 
-           4'b0100: ALUControlD = 2'b00; // ADD
-           4'b0010: ALUControlD = 2'b01; // SUB
-           4'b0000: ALUControlD = 2'b10; // AND
-           4'b1100: ALUControlD = 2'b11; // ORR
-           default: ALUControlD = 2'bx;  // unimplemented
+           4'b0100: ALUControlD = 4'b0000; // ADD
+           4'b0010: ALUControlD = 4'b0001; // SUB
+           4'b0000: ALUControlD = 4'b0010; // AND
+           4'b1100: ALUControlD = 4'b0011; // ORR
+           default: ALUControlD = 4'bx;  // unimplemented
          endcase
          FlagWriteD[1]   = InstrD[20];   // update N/Z Flags if S bit is set
          FlagWriteD[0]   = InstrD[20] &
-                           (ALUControlD == 2'b00 | ALUControlD == 2'b01);
+                           (ALUControlD == 4'b0000 | ALUControlD == 4'b0001);
        end 
      else 
        begin
-         ALUControlD     = 2'b00;        // perform addition for non-dp instr
-         FlagWriteD      = 2'b00;        // don't update Flags
+         ALUControlD     = 4'b0000;        // perform addition for non-dp instr
+         FlagWriteD      = 4'b0000;        // don't update Flags
        end
 
    assign PCSrcD = (((InstrD[15:12] == 4'b1111) & RegWriteD) | BranchD);
