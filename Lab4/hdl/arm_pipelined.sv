@@ -666,15 +666,14 @@ endmodule // extend
 module shifter(input logic [31:0] rd2,
                input logic [6:0] instr,
                output logic [31:0] rd2new);
-logic [1:0] sh = instr [1:0];
-logic [4:0] shamt5 = instr[6:2];
+
 always_comb
-case (sh)
-  2'b00: rd2new = rd2 << shamt5;
-  2'b01: rd2new = rd2 >> shamt5;
-  2'b10: rd2new = rd2 >>> shamt5;
-  2'b11: rd2new = ((rd2 >> shamt5) | (rd2 << (32 - shamt5)));
-default:rd2new = 31'bx;
+  case(instr[1:0])
+    2'b00: rd2new = rd2 << instr[6:2];
+    2'b01: rd2new = rd2 >> instr[6:2];
+    2'b10: rd2new = rd2 >>> instr[6:2];
+    2'b11: rd2new = ((rd2 >> instr[6:2]) | (rd2 << (32 - instr[6:2])));
+  default: rd2new = 32'bx;
 endcase
 // If RSR becomes issuse add bit 4 in inst and make a case for it
 endmodule
