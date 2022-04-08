@@ -261,7 +261,7 @@ module controller (input  logic         clk, reset,
                         .d(FlagsNextE),
                         .q(FlagsE));
 
-   flopenr  #(4) flagsreg(.clk(clk),
+   flopenr  #(4) shifterreg(.clk(clk),
                           .reset(reset),
                           .en(MemSysReady),
                           .d(Instr[11:5]),
@@ -486,13 +486,8 @@ module datapath (input  logic        clk, reset,
                         .d1(ResultW),
                         .d2(ALUOutM),
                         .s(ForwardBE),
-<<<<<<< HEAD
                         .y(WriteDataE)); //shifter add here
-   mux2 #(32)  srcbmux (.d0(WriteDataE),
-=======
-                        .y(WriteDataE));
    mux2 #(32)  srcbmux (.d0(rd2new),
->>>>>>> d411c0bbba534a463944a5496262269b6008402a
                         .d1(ExtImmE),
                         .s(ALUSrcE),
                         .y(SrcBE));
