@@ -84,7 +84,8 @@ module arm (input  logic        clk, reset,
             input  logic        PCReady);
    
    logic [2:0]  RegSrcD;
-   logic [1:0]  ImmSrcD, ALUControlE;
+   logic [1:0]  ImmSrcD;
+   logic [3:0]  ALUControlE;
    logic        ALUSrcE, BranchTakenE, MemtoRegW,
                 PCSrcW, RegWriteW;
    logic [3:0]  ALUFlagsE;
@@ -179,7 +180,7 @@ module controller (input  logic         clk, reset,
                    output logic [2:0]   RegSrcD, 
                    output logic [1:0]   ImmSrcD, 
                    output logic         ALUSrcE, BranchTakenE,
-                   output logic [1:0]   ALUControlE,
+                   output logic [3:0]   ALUControlE,
                    output logic         MemWriteM,
                    output logic         MemtoRegW, PCSrcW, RegWriteW,
                    output logic [3:0]  FlagsE,
@@ -193,7 +194,7 @@ module controller (input  logic         clk, reset,
 
    logic [11:0] controlsD;
    logic        CondExE, ALUOpD;
-   logic [1:0]  ALUControlD;
+   logic [3:0]  ALUControlD;
    logic        ALUSrcD;
    logic        MemtoRegD, MemtoRegM;
    logic        RegWriteD, RegWriteE, RegWriteGatedE, NoWrite;
@@ -224,7 +225,6 @@ module controller (input  logic         clk, reset,
      if (ALUOpD) 
        begin                 // which Data-processing Instr?
          case(InstrD[24:21]) 
-
            4'b0100: ALUControlD = 4'b0000; // ADD
            4'b0010: ALUControlD = 4'b0001; // SUB
            4'b0000: ALUControlD = 4'b0010; // AND
@@ -274,7 +274,7 @@ module controller (input  logic         clk, reset,
            default: ALUControlD = 4'bx;  // unimplemented
          endcase
 
-         if((Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010)) NoWrite = 1'b0;
+         if((InstrD[4:1] != 4'b1010) && (InstrD[4:1] != 4'b1010) && (InstrD[4:1] != 4'b1010) && (InstrD[4:1] != 4'b1010)) NoWrite = 1'b0;
 
  /*          4'b0100: ALUControlD = 2'b00; // ADD
            4'b0010: ALUControlD = 2'b01; // SUB
@@ -284,12 +284,12 @@ module controller (input  logic         clk, reset,
          endcase*/
          FlagWriteD[1]   = InstrD[20];   // update N/Z Flags if S bit is set
          FlagWriteD[0]   = InstrD[20] &
-                           (ALUControlD == 2'b00 | ALUControlD == 2'b01);
+                           (ALUControlD == 4'b0000 | ALUControlD == 4'b0001);
        end 
      else 
        begin
-         ALUControlD     = 2'b00;        // perform addition for non-dp instr
-         FlagWriteD      = 2'b00;        // don't update Flags
+         ALUControlD     = 4'b0000;        // perform addition for non-dp instr
+         FlagWriteD      = 4'b0000;        // don't update Flags
        end
 
    assign PCSrcD = (((InstrD[15:12] == 4'b1111) & RegWriteD) | BranchD);
@@ -303,11 +303,17 @@ module controller (input  logic         clk, reset,
                                 RegWriteD, PCSrcD, MemtoRegD, MemStrobeD}),
                             .q({FlagWriteE, BranchE, MemWriteE, 
                                 RegWriteE, PCSrcE, MemtoRegE, MemStrobeE}));
-   flopenr #(3)  regsE(.clk(clk),
+   flopenr #(1)  regsE(.clk(clk),
                      .reset(reset),
                      .en(MemSysReady),
-                     .d({ALUSrcD, ALUControlD}),
-                     .q({ALUSrcE, ALUControlE}));
+                     .d(ALUSrcD),
+                     .q(ALUSrcE));
+
+   flopenr #(4)  regs2E(.clk(clk),
+                     .reset(reset),
+                     .en(MemSysReady),
+                     .d(ALUControlD),
+                     .q(ALUControlE));                 
    
    flopenr  #(4) condregE(.clk(clk),
                         .reset(reset),
@@ -403,7 +409,7 @@ module datapath (input  logic        clk, reset,
                  input  logic [2:0]  RegSrcD,
                  input  logic [1:0]  ImmSrcD,
                  input  logic        ALUSrcE, BranchTakenE,
-                 input  logic [1:0]  ALUControlE, 
+                 input  logic [3:0]  ALUControlE, 
                  input  logic        MemtoRegW, PCSrcW, RegWriteW,
                  input  logic [3:0]  FlagsE,
                  output logic [31:0] PCF,
@@ -737,7 +743,7 @@ endcase
 endmodule
 
 module alu (input  logic [31:0] a, b,
-            input  logic [1:0]  ALUControl,
+            input  logic [3:0]  ALUControl,
             input  logic [3:0]  FlagsE,
             output logic [31:0] Result,
             output logic [3:0]  Flags);

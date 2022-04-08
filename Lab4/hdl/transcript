@@ -14,7 +14,7 @@
 # do arm_pipelined.do\\
 # ./memfile.dat
 # Model Technology ModelSim SE-64 vlog 2021.3 Compiler 2021.07 Jul 13 2021
-# Start time: 16:15:04 on Apr 08,2022
+# Start time: 16:49:50 on Apr 08,2022
 # vlog -reportprogress 300 imem.v dmem.v arm_pipelined.sv top.sv tb.sv 
 # -- Compiling module imem
 # -- Compiling module dmem
@@ -42,5 +42,5 @@
 # 	flopr
 # 	floprc
 # 	testbench
-# End time: 16:15:04 on Apr 08,2022, Elapsed time: 0:00:00
+# End time: 16:49:50 on Apr 08,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
