@@ -196,7 +196,7 @@ module controller (input  logic         clk, reset,
    logic [1:0]  ALUControlD;
    logic        ALUSrcD;
    logic        MemtoRegD, MemtoRegM;
-   logic        RegWriteD, RegWriteE, RegWriteGatedE;
+   logic        RegWriteD, RegWriteE, RegWriteGatedE, NoWrite;
    logic        MemWriteD, MemWriteE, MemWriteGatedE;
    logic        BranchD, BranchE;
    logic [1:0]  FlagWriteD, FlagWriteE;
@@ -224,12 +224,64 @@ module controller (input  logic         clk, reset,
      if (ALUOpD) 
        begin                 // which Data-processing Instr?
          case(InstrD[24:21]) 
-           4'b0100: ALUControlD = 2'b00; // ADD
+
+           4'b0100: ALUControlD = 4'b0000; // ADD
+           4'b0010: ALUControlD = 4'b0001; // SUB
+           4'b0000: ALUControlD = 4'b0010; // AND
+           4'b1100: ALUControlD = 4'b0011; // ORR
+           4'b0001: ALUControlD = 4'b0100; // EOR
+           4'b0101: ALUControlD = 4'b0101; // ADC
+           4'b0110: ALUControlD = 4'b0110; // SBC
+           4'b1101: ALUControlD = 4'b0111; // SHIFT/MOV
+           4'b1110: ALUControlD = 4'b1000; // BIC
+           4'b1111: ALUControlD = 4'b1001; // MVN
+
+           // ALUcontrol modified from 2 to 4 bits
+
+           //[CMN & CMP & TST & TEQ] NO WRITE | CI
+           4'b1010: begin //CMN
+                      if(InstrD[0] == 1) begin
+                        ALUControlD = 4'b0001; // SUB
+                        NoWrite = 1; 
+                      end
+                      else ALUControlD = 4'bx;
+                    end  
+           4'b1011: begin //CMP
+                      if(InstrD[0] == 1) begin
+                        ALUControlD = 4'b0000; // ADD
+                        NoWrite = 1; 
+                      end
+                      else ALUControlD = 4'bx;
+                    end
+           4'b1000: begin //TST 
+                      if(InstrD[0] == 1) begin
+                        ALUControlD = 4'b0010; // AND
+                        NoWrite = 1; 
+                      end
+                      else ALUControlD = 4'bx;
+                    end
+           4'b1001: begin //TEQ was coded to path to ORR not XOR
+                      if(InstrD[0] == 1) begin
+                        ALUControlD = 4'b0100; // EOR
+                        NoWrite = 1; 
+                      end
+                      else ALUControlD = 4'bx;
+                    end
+                    
+                    
+           
+
+           default: ALUControlD = 4'bx;  // unimplemented
+         endcase
+
+         if((Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010) && (Funct[4:1] != 4'b1010)) NoWrite = 1'b0;
+
+ /*          4'b0100: ALUControlD = 2'b00; // ADD
            4'b0010: ALUControlD = 2'b01; // SUB
            4'b0000: ALUControlD = 2'b10; // AND
            4'b1100: ALUControlD = 2'b11; // ORR
            default: ALUControlD = 2'bx;  // unimplemented
-         endcase
+         endcase*/
          FlagWriteD[1]   = InstrD[20];   // update N/Z Flags if S bit is set
          FlagWriteD[0]   = InstrD[20] &
                            (ALUControlD == 2'b00 | ALUControlD == 2'b01);
@@ -282,7 +334,7 @@ module controller (input  logic         clk, reset,
                      .CondEx(CondExE),
                      .FlagsNext(FlagsNextE));
    assign BranchTakenE    = BranchE & CondExE;
-   assign RegWriteGatedE  = RegWriteE & CondExE;
+   assign RegWriteGatedE  = RegWriteE & CondExE & ~NoWrite;
    assign MemWriteGatedE  = MemWriteE & CondExE;
    assign PCSrcGatedE     = PCSrcE & CondExE;
    assign MemStrobeGatedE = MemStrobeE & CondExE;
@@ -503,7 +555,7 @@ module datapath (input  logic        clk, reset,
    alu         alu (.a(SrcAE),
                     .b(SrcBE),
                     .ALUControl(ALUControlE),
-                    .FlagsE(flagsE),
+                    .FlagsE(FlagsE),
                     .Result(ALUResultE),
                     .Flags(ALUFlagsE));
    
@@ -699,9 +751,20 @@ module alu (input  logic [31:0] a, b,
 
    always_comb
      casex (ALUControl[1:0])
-       2'b0?: Result = sum;
-       2'b10: Result = a & b;
-       2'b11: Result = a | b;
+
+       4'b000?:  Result = sum;
+       4'b0010:  Result = a & b;
+       4'b0011:  Result = a | b;
+       4'b0100:  Result = a ^ b;
+       4'b0101:  Result = sum +  sum[32];
+       4'b0110:  Result = sum - ~sum[32];
+       4'b0111:  Result = b;
+       4'b1000:  Result = a & ~b;
+       4'b1001:  Result = ~b;
+
+      // 2'b0?: Result = sum;
+      // 2'b10: Result = a & b;
+      // 2'b11: Result = a | b;
      endcase
 
    assign neg      = Result[31];
