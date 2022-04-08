@@ -96,6 +96,7 @@ module arm (input  logic        clk, reset,
                 Match_2E_M, Match_2E_W, 
                 Match_12D_E;
    logic [6:0]  SrcB2shifter;
+   logic [3:0]  FlagsE;
    
    controller c (.clk(clk),
                  .reset(reset),
@@ -110,6 +111,7 @@ module arm (input  logic        clk, reset,
                  .MemtoRegW(MemtoRegW),
                  .PCSrcW(PCSrcW),
                  .RegWriteW(RegWriteW),
+                 .FlagsE(FlagsE),
                  // hazard interface
                  .RegWriteM(RegWriteM),
                  .MemtoRegE(MemtoRegE),
@@ -135,6 +137,7 @@ module arm (input  logic        clk, reset,
                 .WriteDataM(WriteDataM),
                 .ReadDataM(ReadDataM),
                 .ALUFlagsE(ALUFlagsE),
+                .FlagsE(FlagsE),
                 // hazard logic
                 .Match_1E_M(Match_1E_M),
                 .Match_1E_W(Match_1E_W), 
@@ -179,6 +182,7 @@ module controller (input  logic         clk, reset,
                    output logic [1:0]   ALUControlE,
                    output logic         MemWriteM,
                    output logic         MemtoRegW, PCSrcW, RegWriteW,
+                   output logic [3:0]  FlagsE,
                    // hazard interface
                    output logic         RegWriteM, MemtoRegE,
                    output logic         PCWrPendingF,
@@ -197,7 +201,7 @@ module controller (input  logic         clk, reset,
    logic        BranchD, BranchE;
    logic [1:0]  FlagWriteD, FlagWriteE;
    logic        PCSrcD, PCSrcE, PCSrcM;
-   logic [3:0]  FlagsE, FlagsNextE, CondE;
+   logic [3:0]  FlagsNextE, CondE;
    logic        MemStrobeD, MemStrobeE, MemStrobeGatedE;
 
    // Decode stage   
@@ -349,6 +353,7 @@ module datapath (input  logic        clk, reset,
                  input  logic        ALUSrcE, BranchTakenE,
                  input  logic [1:0]  ALUControlE, 
                  input  logic        MemtoRegW, PCSrcW, RegWriteW,
+                 input  logic [3:0]  FlagsE,
                  output logic [31:0] PCF,
                  input  logic [31:0] InstrF,
                  output logic [31:0] InstrD,
@@ -498,6 +503,7 @@ module datapath (input  logic        clk, reset,
    alu         alu (.a(SrcAE),
                     .b(SrcBE),
                     .ALUControl(ALUControlE),
+                    .FlagsE(flagsE),
                     .Result(ALUResultE),
                     .Flags(ALUFlagsE));
    
@@ -680,6 +686,7 @@ endmodule
 
 module alu (input  logic [31:0] a, b,
             input  logic [1:0]  ALUControl,
+            input  logic [3:0]  FlagsE,
             output logic [31:0] Result,
             output logic [3:0]  Flags);
 
