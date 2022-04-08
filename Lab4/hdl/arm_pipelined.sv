@@ -95,10 +95,11 @@ module arm (input  logic        clk, reset,
    logic        Match_1E_M, Match_1E_W, 
                 Match_2E_M, Match_2E_W, 
                 Match_12D_E;
+   logic [6:0]  SrcB2shifter;
    
    controller c (.clk(clk),
                  .reset(reset),
-                 .InstrD(InstrD[31:12]),
+                 .InstrD(InstrD[31:0]),
                  .ALUFlagsE(ALUFlagsE),
                  .RegSrcD(RegSrcD), 
                  .ImmSrcD(ImmSrcD), 
@@ -115,7 +116,8 @@ module arm (input  logic        clk, reset,
                  .PCWrPendingF(PCWrPendingF),
                  .FlushE(FlushE),
                  .MemStrobeM(MemStrobe),
-                 .MemSysReady(PCReady));
+                 .MemSysReady(PCReady),
+                 .SrcB2shifter(SrcB2shifter));
    datapath dp (.clk(clk),
                 .reset(reset),
                 .RegSrcD(RegSrcD),
@@ -144,7 +146,8 @@ module arm (input  logic        clk, reset,
                 .StallF(StallF),
                 .StallD(StallD),
                 .FlushD(FlushD),
-                .MemSysReady(PCReady));
+                .MemSysReady(PCReady),
+                .SrcB2shifter(SrcB2shifter));
    hazard h (.clk(clk),
              .reset(reset),
              .Match_1E_M(Match_1E_M),
@@ -168,7 +171,7 @@ module arm (input  logic        clk, reset,
 endmodule // arm
 
 module controller (input  logic         clk, reset,
-                   input  logic [31:12] InstrD,
+                   input  logic [31:0] InstrD,
                    input  logic [3:0]   ALUFlagsE,
                    output logic [2:0]   RegSrcD, 
                    output logic [1:0]   ImmSrcD, 
@@ -181,7 +184,8 @@ module controller (input  logic         clk, reset,
                    output logic         PCWrPendingF,
                    input  logic         FlushE,
                    output logic         MemStrobeM,
-                   input  logic         MemSysReady);
+                   input  logic         MemSysReady,
+                   output logic [6:0]   SrcB2shifter);
 
    logic [11:0] controlsD;
    logic        CondExE, ALUOpD;
@@ -195,7 +199,6 @@ module controller (input  logic         clk, reset,
    logic        PCSrcD, PCSrcE, PCSrcM;
    logic [3:0]  FlagsE, FlagsNextE, CondE;
    logic        MemStrobeD, MemStrobeE, MemStrobeGatedE;
-   logic [6:0]  SrcB2shifter;
 
    // Decode stage   
    always_comb
@@ -261,10 +264,10 @@ module controller (input  logic         clk, reset,
                         .d(FlagsNextE),
                         .q(FlagsE));
 
-   flopenr  #(4) shifterreg(.clk(clk),
+   flopenr  #(7) shifterreg(.clk(clk), // shifter flop
                           .reset(reset),
                           .en(MemSysReady),
-                          .d(Instr[11:5]),
+                          .d(InstrD[11:5]),
                           .q(SrcB2shifter));                     
 
    // write and Branch controls are conditional
@@ -357,7 +360,8 @@ module datapath (input  logic        clk, reset,
                  output logic        Match_2E_M, Match_2E_W, Match_12D_E,
                  input  logic [1:0]  ForwardAE, ForwardBE,
                  input  logic        StallF, StallD, FlushD,
-                 input  logic        MemSysReady);
+                 input  logic        MemSysReady,
+                 input  logic [6:0]  SrcB2shifter);
    
    logic [31:0] PCPlus4F, PCnext1F, PCnextF;
    logic [31:0] PCPlus4D, PCPlus4E, PCPlus4M, PCPlus4W;   
