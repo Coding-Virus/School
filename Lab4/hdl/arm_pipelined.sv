@@ -751,19 +751,28 @@ module alu (input  logic [31:0] a, b,
    logic        neg, zero, carry, overflow;
    logic [31:0] condinvb;
    logic [32:0] sum;
-   
-   assign condinvb = ALUControl[0] ? ~b : b;
-   assign sum = a + condinvb + ALUControl[0];
+   logic        sumcontrol, AddorSub;
 
    always_comb
-     casex (ALUControl[1:0])
+   if(4'b000? == ALUControl || 4'b0101 == ALUControl || 4'b0110 == ALUControl) sumcontrol = 1;
+   else sumcontrol = 0;
+
+   always_comb
+   if(4'b0000 == ALUControl[3:0] || 4'b0101 == ALUControl[3:0]) AddorSub = 1;
+   else AddorSub = 0;
+   
+   assign condinvb = (AddorSub == 1'b0) ? ~b : b;
+   assign sum = a + condinvb + (AddorSub == 1'b0);
+
+   always_comb
+     casex (ALUControl)
 
        4'b000?:  Result = sum;
        4'b0010:  Result = a & b;
        4'b0011:  Result = a | b;
        4'b0100:  Result = a ^ b;
-       4'b0101:  Result = sum +  sum[32];
-       4'b0110:  Result = sum - ~sum[32];
+       4'b0101:  Result = sum +  FlagsE[1];
+       4'b0110:  Result = sum - ~FlagsE[1];
        4'b0111:  Result = b;
        4'b1000:  Result = a & ~b;
        4'b1001:  Result = ~b;
@@ -773,11 +782,11 @@ module alu (input  logic [31:0] a, b,
       // 2'b11: Result = a | b;
      endcase
 
-   assign neg      = Result[31];
+   assign neg      =  Result[31];
    assign zero     = (Result == 32'b0);
-   assign carry    = (ALUControl[1] == 1'b0) & sum[32];
-   assign overflow = (ALUControl[1] == 1'b0) & 
-                     ~(a[31] ^ b[31] ^ ALUControl[0]) & 
+   assign carry    = (sumcontrol) & sum[32];
+   assign overflow = (sumcontrol) & 
+                     ~(a[31] ^ b[31] ^ (AddorSub == 1'b1)) & 
                      (a[31] ^ sum[31]); 
    assign Flags = {neg, zero, carry, overflow};
 
